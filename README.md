@@ -25,3 +25,11 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice.  To 
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## DB CONNECTION
+
+user : postgres
+host : 35.225.16.55
+database : esquivia_db
+password : MyDbASTR_DT_2021
+port : 5432
