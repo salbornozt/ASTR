@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { map, Observable, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
+import { UserResponseModel } from './user.response.model';
 
 @Injectable({
     providedIn: 'root'
@@ -29,6 +30,8 @@ export class UserService
     set user(value: User)
     {
         // Store the value
+        console.log('here')
+        console.log(value)
         this._user.next(value);
     }
 
@@ -40,15 +43,28 @@ export class UserService
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
+    setUser(value: User){
+    // Store the value
+        console.log('here')
+        console.log(value)
+        this._user.next(value);
+    }
     /**
      * Get the current logged in user data
      */
-    get(): Observable<User>
+    get(): Observable<UserResponseModel>
     {
-        return this._httpClient.get<User>('api/common/user').pipe(
+
+        var token = localStorage.getItem('accessToken');
+      var header = new HttpHeaders({
+        'Authorization' : 'Bearer '+token
+      });
+      var options = ({
+        headers:header
+      });
+        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user/1',options).pipe(
             tap((user) => {
-                this._user.next(user);
+                this._user.next(user.body);
             })
         );
     }

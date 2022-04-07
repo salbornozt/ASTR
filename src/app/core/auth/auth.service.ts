@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { User } from '../user/user.types';
 
 @Injectable()
 export class AuthService
@@ -31,9 +32,19 @@ export class AuthService
         localStorage.setItem('accessToken', token);
     }
 
+    set userId(id: string)
+    {
+        localStorage.setItem('cod_usuario', id);
+    }
+
     get accessToken(): string
     {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    get userId(): string
+    {
+        return localStorage.getItem('cod_usuario') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -73,17 +84,23 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post('http://127.0.0.1:3000/api/login/', credentials).pipe(
             switchMap((response: any) => {
-
+                console.log(response)
                 // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+                this.accessToken = response.body;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
+                let aux = AuthUtils._decodeToken(this.accessToken)
+
+                this.userId = aux.cod_usuario;
+            
                 // Store the user on the user service
-                this._userService.user = response.user;
+                this._userService.setUser(aux);
+
+                //console.log(this._userService.user.nom_usuario);
 
                 // Return a new observable with the response
                 return of(response);
@@ -129,6 +146,7 @@ export class AuthService
     {
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('cod_usuario');
 
         // Set the authenticated flag to false
         this._authenticated = false;
@@ -177,6 +195,7 @@ export class AuthService
         // Check the access token expire date
         if ( AuthUtils.isTokenExpired(this.accessToken) )
         {
+            console.log("expired");
             return of(false);
         }
 
