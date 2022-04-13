@@ -1,0 +1,30 @@
+<h3>Cart</h3>
+
+<p>
+  <a routerLink="">Shipping Prices</a>
+</p>
+
+<div class="cart-item" >
+  <span>{{ item.email }} </span>
+  <span>{{ item.contrasena }}</span>
+</div>
+
+<form [formGroup]="testForm" (ngSubmit)="onFormSubmit(testForm.value)">
+
+  <div>
+    <label for="name">
+      Name
+    </label>
+    <input id="name" type="text" formControlName="name">
+  </div>
+
+  <div>
+    <label for="tipo_usuario">
+      Tipo de Usuario
+    </label>
+    <input id="tipo_usuario" type="number" formControlName="tipo_usuario">
+  </div>
+
+  <button class="button" type="submit">Purchase</button>
+
+</form>
