@@ -54,9 +54,14 @@
                             "src/styles/vendors.scss",
                             "src/@fuse/styles/main.scss",
                             "src/styles/styles.scss",
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "src/styles/tailwind.scss"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "node_modules/jquery/dist/jquery.min.js",
+                            "node_modules/@popperjs/core/dist/umd/popper.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
