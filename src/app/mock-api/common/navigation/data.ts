@@ -19,6 +19,23 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id      : 'apps',
+        title   : 'Gestión',
+        subtitle: '',
+        type    : 'group',
+        icon    : 'heroicons_outline:document',
+        children: [
+        
+            {
+                id   : 'apps.contacts',
+                title: 'Clientes',
+                type : 'basic',
+                icon : 'heroicons_outline:user-group',
+                link : '/apps/contacts'
+            }
+        ]  
+    },
+    {
         id      : 'pages',
         title   : 'Cuenta',
         subtitle: '',
