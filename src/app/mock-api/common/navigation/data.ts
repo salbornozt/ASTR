@@ -19,6 +19,23 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id      : 'apps',
+        title   : 'Gestión',
+        subtitle: '',
+        type    : 'group',
+        icon    : 'heroicons_outline:document',
+        children: [
+        
+            {
+                id   : 'apps.contacts',
+                title: 'Clientes',
+                type : 'basic',
+                icon : 'heroicons_outline:user-group',
+                link : '/apps/contacts'
+            }
+        ]  
+    },
+    {
         id      : 'pages',
         title   : 'Cuenta',
         subtitle: '',
@@ -32,6 +49,30 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 icon : 'heroicons_outline:cog',
                 link : '/pages/settings'
+            }
+        ]
+    }
+    ,
+    {
+        id      : 'user-interface',
+        title   : 'Seguros',
+        subtitle: 'Building blocks of the UI & UX',
+        type    : 'group',
+        icon    : 'heroicons_outline:collection',
+        children: [
+            {
+                id      : 'user-interface.forms',
+                title   : 'Seguros',
+                type    : 'collapsable',
+                icon    : 'heroicons_outline:pencil-alt',
+                children: [
+                    {
+                        id   : 'user-interface.forms.wizards',
+                        title: 'Agregar',
+                        type : 'basic',
+                        link : '/ui/forms/wizards'
+                    }
+                ]
             }
         ]
     }

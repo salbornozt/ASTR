@@ -94,6 +94,25 @@ export const appRoutes: Route[] = [
                     { path: 'settings', loadChildren: () => import('app/modules/admin/pages/settings/settings.module').then(m => m.SettingsModule) },
                 ]
             },
+
+            //Managment
+            {
+                path : 'apps', children : [
+                    //customers
+                    {path: 'contacts', loadChildren: () => import('app/modules/admin/apps/contacts/contacts.module').then(m => m.ContactsModule)},
+                ]
+
+            },
+            // User Interface
+            {path: 'ui', children: [
+
+                
+
+                // Forms
+                {path: 'forms', children: [
+                    {path: 'wizards', loadChildren: () => import('app/modules/admin/ui/forms/wizards/wizards.module').then(m => m.FormsWizardsModule)}
+                ]}
+            ]}
         ]
     }
 
