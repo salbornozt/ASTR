@@ -53,6 +53,30 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     }
     ,
+    {
+        id      : 'user-interface',
+        title   : 'Seguros',
+        subtitle: 'Building blocks of the UI & UX',
+        type    : 'group',
+        icon    : 'heroicons_outline:collection',
+        children: [
+            {
+                id      : 'user-interface.forms',
+                title   : 'Seguros',
+                type    : 'collapsable',
+                icon    : 'heroicons_outline:pencil-alt',
+                children: [
+                    {
+                        id   : 'user-interface.forms.wizards',
+                        title: 'Agregar',
+                        type : 'basic',
+                        link : '/ui/forms/wizards'
+                    }
+                ]
+            }
+        ]
+    }
+    ,
 
     {
         id   : 'example',

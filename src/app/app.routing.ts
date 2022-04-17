@@ -102,7 +102,17 @@ export const appRoutes: Route[] = [
                     {path: 'contacts', loadChildren: () => import('app/modules/admin/apps/contacts/contacts.module').then(m => m.ContactsModule)},
                 ]
 
-            }
+            },
+            // User Interface
+            {path: 'ui', children: [
+
+                
+
+                // Forms
+                {path: 'forms', children: [
+                    {path: 'wizards', loadChildren: () => import('app/modules/admin/ui/forms/wizards/wizards.module').then(m => m.FormsWizardsModule)}
+                ]}
+            ]}
         ]
     }
 
