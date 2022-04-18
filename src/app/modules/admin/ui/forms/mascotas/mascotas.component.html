@@ -1,0 +1,241 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 min-w-0">
+            <!-- Breadcrumbs -->
+            <div class="flex flex-wrap items-center font-medium">
+                <div>
+                    <a class="whitespace-nowrap text-primary-500">User Interface</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap">
+                    <mat-icon
+                        class="icon-size-5 text-secondary"
+                        [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <a class="ml-1 text-primary-500">Forms</a>
+                </div>
+            </div>
+            <!-- Title -->
+            <div class="mt-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    Form Mascotas Seguros
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex-auto p-6 sm:p-10">
+
+        <div class="max-w-3xl">
+        
+
+
+            
+            <h4>Agregar/Actualizar seguro</h4>
+
+            
+
+            <form class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
+
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="flex-auto">
+                        <mat-label>Nombre Cliente</mat-label>
+                        <input matInput>
+                        <mat-select
+                            [value]="'nombreValue1'"
+                            matPrefix>
+                            <mat-option [value]="'nombreValue1'">Pedro Antonio</mat-option>
+                            <mat-option [value]="'nombreValue2'">Camila Bueneventura</mat-option>
+                            <mat-option [value]="'nombreValue3'">Antonio Castillo</mat-option>
+                            <mat-option [value]="'nombreValue4'">Sandra Puerta</mat-option>
+                            <mat-option [value]="'nombreValue5'">Pepe Tillin</mat-option>
+                        </mat-select>                        
+                    </mat-form-field>
+                </div>   
+                                
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="flex-auto">
+                        <mat-label>Cedula de Todo el Grupo Aegurado</mat-label>
+                        <input
+                            matInput
+                            [placeholder]="'This is a placeholder'">
+                         <!--<mat-hint>Inquilino</mat-hint>-->
+                    </mat-form-field>
+                </div>
+
+                
+
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="flex-auto">
+                        <mat-label>Solicitud de Seguro Mascota</mat-label>
+                        <input
+                            matInput
+                            [placeholder]="'This is a placeholder'">
+                            <!--<mat-hint>Inquilino</mat-hint>-->
+                    </mat-form-field>
+                </div>
+
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="flex-auto">
+                        <mat-label>Carnet de Vacunas</mat-label>
+                        <input
+                            matInput
+                            [placeholder]="'This is a placeholder'">
+                            <!--<mat-hint>Inquilino</mat-hint>-->
+                    </mat-form-field>
+                </div>
+            
+                
+               
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="flex-auto">
+                        <mat-label>Forma de Pago</mat-label>
+                        <input matInput>
+                        <mat-select
+                            [value]="'Financiada'"
+                            matPrefix>                           
+                            <mat-option [value]="'NoFinanciada'">No Financiada</mat-option>
+                            <mat-option [value]="'Financiada'">Financiada</mat-option>
+                        </mat-select>                        
+                    </mat-form-field>
+                </div> 
+                              
+                <!--
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="fuse-mat-textarea flex-auto">
+                        <mat-label>Textarea with autosize</mat-label>
+                        <textarea
+                            matInput
+                            matTextareaAutosize></textarea>
+                    </mat-form-field>
+                </div>
+               
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="flex-auto">
+                        <mat-chip-list #chipList01>
+                            <mat-chip
+                                [removable]="true"
+                                [selectable]="true">
+                                Lemon
+                                <mat-icon
+                                    class="icon-size-5"
+                                    matChipRemove
+                                    [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                            </mat-chip>
+                            <mat-chip
+                                [removable]="true"
+                                [selectable]="true">
+                                Lime
+                                <mat-icon
+                                    class="icon-size-5"
+                                    matChipRemove
+                                    [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                            </mat-chip>
+                            <mat-chip
+                                [removable]="true"
+                                [selectable]="true">
+                                Apple
+                                <mat-icon
+                                    class="icon-size-5"
+                                    matChipRemove
+                                    [svgIcon]="'heroicons_solid:minus-circle'"></mat-icon>
+                            </mat-chip>
+                            <input
+                                [placeholder]="'New fruit...'"
+                                [matChipInputFor]="chipList01">
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="flex-auto">
+                        <mat-label>Fecha</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="picker1">
+                        <mat-datepicker-toggle
+                            matSuffix
+                            [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                -->
+                <div class="flex">
+                    <button
+                                class="px-8"
+                                mat-flat-button
+                                [color]="'primary'"
+                                
+                                type="button"
+                                >
+                                Agregar/Actualizar
+                    </button>
+                </div>
+
+            </form>
+
+            <br>
+            <br>
+
+            <h4>Eliminar seguro</h4>
+
+            <form class="flex flex-col mt-8 p-8 pb-4 bg-card rounded-2xl shadow overflow-hidden">
+
+                <div class="flex">
+                    <mat-form-field
+                        [ngClass]="formFieldHelpers"
+                        class="flex-auto">
+                        <mat-label>Nombre Cliente</mat-label>
+                        <input matInput>
+                        <mat-select
+                            [value]="'nombreValue1'"
+                            matPrefix>
+                            <mat-option [value]="'nombreValue1'">Pedro Antonio</mat-option>
+                            <mat-option [value]="'nombreValue2'">Camila Bueneventura</mat-option>
+                            <mat-option [value]="'nombreValue3'">Antonio Castillo</mat-option>
+                            <mat-option [value]="'nombreValue4'">Sandra Puerta</mat-option>
+                            <mat-option [value]="'nombreValue5'">Pepe Tillin</mat-option>
+                        </mat-select>                        
+                    </mat-form-field>
+                </div>    
+                
+
+                <div class="flex">
+                    <button
+                                class="px-8"
+                                mat-flat-button
+                                [color]="'warn'"
+                                
+                                type="button"
+                                >
+                                Eliminar
+                    </button>
+                </div>
+    
+            </form>
+
+           
+
+            
+
+        </div>
+
+    </div>
+
+</div>
