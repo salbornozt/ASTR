@@ -262,14 +262,16 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         // Go through the contact object and clear empty values
         contact.correos = contact.correos.filter(email => email.email);
 
-        contact.phoneNumbers = contact.phoneNumbers.filter(phoneNumber => phoneNumber.phoneNumber);
+        contact.celulares = contact.celulares.filter(celulares => celulares.celulares);
+        
+        console.log(contact);
 
         // Update the contact on the server
-        this._contactsService.updateContact(contact.id, contact).subscribe(() => {
+        /*this._contactsService.updateContact(contact.id, contact).subscribe(() => {
 
             // Toggle the edit mode off
             this.toggleEditMode(false);
-        });
+        });*/
     }
 
     /**
@@ -295,12 +297,12 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
             if ( result === 'confirmed' )
             {
                 // Get the current contact's id
-                const id = this.contact.cedula;
+                const id = this.contact.cod_cliente;
 
                 // Get the next/previous contact's id
-                const currentContactIndex = this.contacts.findIndex(item => item.cedula === id);
+                const currentContactIndex = this.contacts.findIndex(item => item.cod_cliente === id);
                 const nextContactIndex = currentContactIndex + ((currentContactIndex === (this.contacts.length - 1)) ? -1 : 1);
-                const nextContactId = (this.contacts.length === 1 && this.contacts[0].cedula === id) ? null : this.contacts[nextContactIndex].cedula;
+                const nextContactId = (this.contacts.length === 1 && this.contacts[0].cod_cliente === id) ? null : this.contacts[nextContactIndex].cod_cliente;
 
                 // Delete the contact
                 this._contactsService.deleteContact(id)
@@ -357,7 +359,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         }
 
         // Upload the avatar
-        this._contactsService.uploadAvatar(this.contact.cedula, file).subscribe();
+        this._contactsService.uploadAvatar(this.contact.cod_cliente, file).subscribe();
     }
 
     /**
@@ -675,7 +677,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         });
 
         // Add the phone number form group to the phoneNumbers form array
-        (this.contactForm.get('phoneNumbers') as FormArray).push(phoneNumberFormGroup);
+        (this.contactForm.get('celulares') as FormArray).push(phoneNumberFormGroup);
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
