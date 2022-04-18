@@ -74,7 +74,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
     {
         id      : 'user-interface',
         title   : 'Seguros',
-        subtitle: 'Building blocks of the UI & UX',
+        subtitle: '',
         type    : 'group',
         icon    : 'heroicons_outline:collection',
         children: [
@@ -150,15 +150,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ]
     }
-    ,
-
-    {
-        id   : 'example',
-        title: 'Example',
-        type : 'basic',
-        icon : 'heroicons_outline:chart-pie',
-        link : '/example'
-    }
+    
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
