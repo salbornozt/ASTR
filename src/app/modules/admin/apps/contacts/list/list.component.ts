@@ -178,9 +178,10 @@ export class ContactsListComponent implements OnInit, OnDestroy
     {
         // Create the contact
         this._contactsService.createContact().subscribe((newContact) => {
+            console.log('Cliente creado con'+newContact.body.cod_cliente);
 
             // Go to the new contact
-            this._router.navigate(['./', newContact.cedula], {relativeTo: this._activatedRoute});
+            this._router.navigate(['./', newContact.body.cod_cliente], {relativeTo: this._activatedRoute});
 
             // Mark for check
             this._changeDetectorRef.markForCheck();

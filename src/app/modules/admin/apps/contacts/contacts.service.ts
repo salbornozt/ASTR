@@ -139,15 +139,15 @@ export class ContactsService
     /**
      * Create contact
      */
-    createContact(): Observable<Contact>
+    createContact(): Observable<UserResponseModel>
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.post<Contact>('api/apps/contacts/contact', {}).pipe(
+            switchMap(contacts => this._httpClient.post<UserResponseModel>('http://localhost:3000/api/client/', {}).pipe(
                 map((newContact) => {
 
                     // Update the contacts with the new contact
-                    this._contacts.next([newContact, ...contacts]);
+                    this._contacts.next([newContact.body, ...contacts]);
 
                     // Return the new contact
                     return newContact;
@@ -162,7 +162,7 @@ export class ContactsService
      * @param id
      * @param contact
      */
-    updateContact(id: string, contact: Contact): Observable<Contact>
+    updateContact(id: number, contact: Contact): Observable<Contact>
     {
         return this.contacts$.pipe(
             take(1),
@@ -173,7 +173,7 @@ export class ContactsService
                 map((updatedContact) => {
 
                     // Find the index of the updated contact
-                    const index = contacts.findIndex(item => item.cedula === id);
+                    const index = contacts.findIndex(item => item.cod_cliente === id);
 
                     // Update the contact
                     contacts[index] = updatedContact;
@@ -186,7 +186,7 @@ export class ContactsService
                 }),
                 switchMap(updatedContact => this.contact$.pipe(
                     take(1),
-                    filter(item => item && item.cedula === id),
+                    filter(item => item && item.cod_cliente === id),
                     tap(() => {
 
                         // Update the contact if it's selected
@@ -205,15 +205,15 @@ export class ContactsService
      *
      * @param id
      */
-    deleteContact(id: string): Observable<boolean>
+    deleteContact(id: number): Observable<UserResponseModel>
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.delete('api/apps/contacts/contact', {params: {id}}).pipe(
-                map((isDeleted: boolean) => {
+            switchMap(contacts => this._httpClient.delete('http://localhost:3000/api/client', {params: {id}}).pipe(
+                map((result: UserResponseModel) => {
 
                     // Find the index of the deleted contact
-                    const index = contacts.findIndex(item => item.cedula === id);
+                    const index = contacts.findIndex(item => item.cod_cliente === id);
 
                     // Delete the contact
                     contacts.splice(index, 1);
@@ -222,7 +222,7 @@ export class ContactsService
                     this._contacts.next(contacts);
 
                     // Return the deleted status
-                    return isDeleted;
+                    return result.body.isDeleted;
                 })
             ))
         );
@@ -361,7 +361,7 @@ export class ContactsService
      * @param id
      * @param avatar
      */
-    uploadAvatar(id: string, avatar: File): Observable<Contact>
+    uploadAvatar(id: number, avatar: File): Observable<Contact>
     {
         return this.contacts$.pipe(
             take(1),
@@ -377,7 +377,7 @@ export class ContactsService
                 map((updatedContact) => {
 
                     // Find the index of the updated contact
-                    const index = contacts.findIndex(item => item.cedula === id);
+                    const index = contacts.findIndex(item => item.cod_cliente === id);
 
                     // Update the contact
                     contacts[index] = updatedContact;
@@ -390,7 +390,7 @@ export class ContactsService
                 }),
                 switchMap(updatedContact => this.contact$.pipe(
                     take(1),
-                    filter(item => item && item.cedula === id),
+                    filter(item => item && item.cod_cliente === id),
                     tap(() => {
 
                         // Update the contact if it's selected
