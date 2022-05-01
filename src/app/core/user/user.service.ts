@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, ReplaySubject, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserResponseModel } from './user.response.model';
 
@@ -9,6 +9,8 @@ import { UserResponseModel } from './user.response.model';
 })
 export class UserService {
     private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
+    private _users: BehaviorSubject<User[] | null> = new BehaviorSubject(null);
+
 
     /**
      * Constructor
@@ -34,6 +36,10 @@ export class UserService {
 
     get user$(): Observable<User> {
         return this._user.asObservable();
+    }
+
+    get users$() : Observable<User[]>{
+        return this._users.asObservable();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -86,4 +92,16 @@ export class UserService {
             })
         );
     }
+
+    /**
+     * get list of users
+     */
+    list():Observable<UserResponseModel> {
+        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user').pipe(
+            tap((response) => {
+                this._users.next(response.body);
+            })
+        );
+    }
+
 }
