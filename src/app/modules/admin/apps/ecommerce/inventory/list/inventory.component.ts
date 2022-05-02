@@ -8,6 +8,9 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
 import { InventoryService } from 'app/modules/admin/apps/ecommerce/inventory/inventory.service';
+import { ProcesoService } from 'app/services/processs/proceso.service';
+import { Proceso } from 'app/services/processs/proceso.types';
+import { UserResponseModel } from 'app/core/user/user.response.model';
 
 @Component({
     selector       : 'inventory-list',
@@ -42,6 +45,7 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
     @ViewChild(MatSort) private _sort: MatSort;
 
     products$: Observable<InventoryProduct[]>;
+    procesos$: Observable<Proceso[]>;
 
     brands: InventoryBrand[];
     categories: InventoryCategory[];
@@ -61,6 +65,7 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
      * Constructor
      */
     constructor(
+        private _procesosServices: ProcesoService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
@@ -78,6 +83,16 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
      */
     ngOnInit(): void
     {
+
+        this.procesos$ = this._procesosServices._procesos.asObservable()
+
+        this._procesosServices.getProcesos()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((brands:UserResponseModel) => {
+            });
+           
+
+
         // Create the selected product form
         this.selectedProductForm = this._formBuilder.group({
             

@@ -34,6 +34,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type : 'basic',
                 icon : 'heroicons_outline:user-group',
                 link : '/apps/contacts'
+            },
+            {
+                id   : 'apps.empleados',
+                title: 'Empleados',
+                type : 'basic',
+                icon : 'heroicons_outline:user-group',
+                link : '/apps/empleados'
             }
         ]  
     },

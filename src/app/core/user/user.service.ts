@@ -10,6 +10,7 @@ import { UserResponseModel } from './user.response.model';
 export class UserService {
     private _user: ReplaySubject<User> = new ReplaySubject<User>(1);
     private _users: BehaviorSubject<User[] | null> = new BehaviorSubject(null);
+    private _empleados: BehaviorSubject<User[] | null> = new BehaviorSubject(null);
 
 
     /**
@@ -36,6 +37,10 @@ export class UserService {
 
     get user$(): Observable<User> {
         return this._user.asObservable();
+    }
+
+    get empleados$(): Observable<User[]> {
+        return this._empleados.asObservable();
     }
 
     get users$() : Observable<User[]>{
@@ -100,6 +105,16 @@ export class UserService {
         return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user').pipe(
             tap((response) => {
                 this._users.next(response.body);
+            })
+        );
+    }
+
+    listEmpleados():Observable<UserResponseModel> {
+        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user/empleados').pipe(
+            tap((response) => {
+                console.log(response.body);
+                
+                this._empleados.next(response.body);
             })
         );
     }
