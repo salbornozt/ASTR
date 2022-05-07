@@ -39,8 +39,18 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'apps.empleados',
                 title: 'Empleados',
                 type : 'basic',
-                icon : 'heroicons_outline:user-group',
+                icon : 'heroicons_outline:users',
                 link : '/apps/empleados'
+            },
+            {
+                id      : 'user-interface.forms',
+                title   : 'Seguros',
+                type    : 'collapsable',
+                icon    : 'heroicons_outline:archive',
+                children: [
+                    
+                
+                ]
             }
         ]  
     },
@@ -56,6 +66,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Lista de Procesos',
                 type : 'basic',
                 link : '/apps/ecommerce/inventory'
+            },
+            {
+                id   : 'user-interface.forms.wizards',
+                title: 'Agregar',
+                type : 'basic',
+                link : '/ui/forms/wizards'
             }
         ]
     },
@@ -77,87 +93,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         ]
     }
-    ,
-    {
-        id      : 'user-interface',
-        title   : 'Seguros',
-        subtitle: '',
-        type    : 'group',
-        icon    : 'heroicons_outline:collection',
-        children: [
-            {
-                id      : 'user-interface.forms',
-                title   : 'Seguros',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:pencil-alt',
-                children: [
-                    {
-                        id   : 'user-interface.forms.wizards',
-                        title: 'Agregar',
-                        type : 'basic',
-                        link : '/ui/forms/wizards'
-                    }
-                    /*,
-                    {
-                        id   : 'user-interface.forms.autos',
-                        title: 'Autos',
-                        type : 'basic',
-                        link : '/ui/forms/autos'
-                    }   
-                    ,
-                    {
-                        id   : 'user-interface.forms.hogar',
-                        title: 'Hogar',
-                        type : 'basic',
-                        link : '/ui/forms/hogar'
-                    } 
-                    ,
-                    {
-                        id   : 'user-interface.forms.arrendamiento',
-                        title: 'Arrendamiento',
-                        type : 'basic',
-                        link : '/ui/forms/arrendamiento'
-                    } 
-                    ,
-                    {
-                        id   : 'user-interface.forms.vida',
-                        title: 'Vida',
-                        type : 'basic',
-                        link : '/ui/forms/vida'
-                    } 
-                    ,
-                    {
-                        id   : 'user-interface.forms.excequias',
-                        title: 'Excequias',
-                        type : 'basic',
-                        link : '/ui/forms/excequias'
-                    } 
-                    ,
-                    {
-                        id   : 'user-interface.forms.finanzas',
-                        title: 'Finanzas',
-                        type : 'basic',
-                        link : '/ui/forms/finanzas'
-                    } 
-                    ,
-                    {
-                        id   : 'user-interface.forms.respCiviMed',
-                        title: 'Responsabilidad Civil Medica',
-                        type : 'basic',
-                        link : '/ui/forms/respCiviMed'
-                    } 
-                    ,
-                    {
-                        id   : 'user-interface.forms.mascotas',
-                        title: 'Mascotas',
-                        type : 'basic',
-                        link : '/ui/forms/mascotas'
-                    } 
-                    */
-                ]
-            }
-        ]
-    }
+    
     
 ];
 export const compactNavigation: FuseNavigationItem[] = [
