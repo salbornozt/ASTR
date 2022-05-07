@@ -97,7 +97,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type : 'basic',
                         link : '/ui/forms/wizards'
                     }
-                    ,
+                    /*,
                     {
                         id   : 'user-interface.forms.autos',
                         title: 'Autos',
@@ -153,6 +153,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         type : 'basic',
                         link : '/ui/forms/mascotas'
                     } 
+                    */
                 ]
             }
         ]

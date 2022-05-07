@@ -24,7 +24,7 @@
                     [autocomplete]="'off'"
                     [placeholder]="'Search products'">
             </mat-form-field>
-            <!-- Add product button -->
+            <!-- Add product button 
             <button
                 class="ml-4"
                 mat-flat-button
@@ -32,7 +32,7 @@
                 (click)="createProduct()">
                 <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                 <span class="ml-2 mr-1">Add</span>
-            </button>
+            </button>-->
         </div>
     </div>
 
@@ -49,36 +49,50 @@
                             class="inventory-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort
                             matSortDisableClear>
-                            <div></div>
+                            
                             <div
                                 class="hidden md:block"
                                 [mat-sort-header]="'idProceso'">
-                                IdProceso
+                                No.
                             </div>
-                            <div class="hidden md:block" [mat-sort-header]="'name'">Name</div>
-                            <div
-                                class="hidden md:block"
-                                [mat-sort-header]="'seguro'">
+                            <div 
+                                class="hidden md:block" 
+                                [mat-sort-header]="'name'">
                                 Seguro
                             </div>
                             <div
+                                class="hidden md:block"
+                                [mat-sort-header]="'seguro'">
+                                Cliente
+                            </div>
+                            <div
+                                class="hidden md:block"
+                                [mat-sort-header]="'empleado'">
+                                Empleado
+                            </div>
+                            <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'stock'">
+                                [mat-sort-header]="'porcentaje'">
                                 Porcentaje
                             </div>
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'active'">
+                                [mat-sort-header]="'completado'">
                                 Completado
                             </div>
-                            <div class="hidden sm:block">Details</div>
+                            <div
+                                class="hidden lg:block"
+                                [mat-sort-header]="'fecha'">
+                                Fecha Inicio
+                            </div>
+                            <!--<div class="hidden sm:block">Details</div>-->
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(procesos$ | async) as products">
                             <ng-container *ngFor="let product of products; trackBy: trackByFn">
                                 <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
-                                    <!-- Image -->
+                                    <!-- Image 
                                     <div class="flex items-center">
                                         <div class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
                                             
@@ -88,7 +102,7 @@
                                                 NO THUMB
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
 
                                     <!-- SKU -->
                                     <div class="hidden md:block truncate">
@@ -96,39 +110,55 @@
                                     </div>
 
                                     <!-- Name -->
-                                    <div class="truncate">
-                                        {{product.name}}
+                                    <div class="hidden md:block truncate">
+                                        {{product.nom_tipo_seguro}}
                                     </div>
 
-                                    <!-- Price -->
+                                    
+                                    <div class="hidden md:block truncate">
+                                        {{product.nom_cliente}}
+                                    </div>
+
+                                    <div class="hidden md:block truncate">
+                                        {{product.nom_usuario}}
+                                    </div>
+
                                     <div class="hidden md:block">
-                                        {{product.seguro}}
+                                        
                                     </div>
 
-                                    <!-- Stock -->
+                                    <div class="hidden md:block">
+                                        
+                                    </div>
+
+                                    <div class="hidden md:block">
+                                        {{product.fecha_inicio}}
+                                    </div>
+
+                                    <!-- Stock 
                                     <div class="hidden lg:flex items-center">
                                         <div class="min-w-4">{{product.stock}}</div>
-                                        <!-- Low stock -->
+                                        
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
                                             *ngIf="product.stock < 20">
                                             <div class="flex w-full h-1/3 bg-red-600"></div>
                                         </div>
-                                        <!-- Medium stock -->
+                                       
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
                                             *ngIf="product.stock >= 20 && product.stock < 60">
                                             <div class="flex w-full h-2/4 bg-orange-400"></div>
                                         </div>
-                                        <!-- High stock -->
+                                        
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
                                             *ngIf="product.stock >= 70">
                                             <div class="flex w-full h-full bg-green-400"></div>
                                         </div>
-                                    </div>
+                                    </div>-->
 
-                                    <!-- Active -->
+                                    <!-- Active 
                                     <div class="hidden lg:block">
                                         <ng-container *ngIf="product.active">
                                             <mat-icon
@@ -140,9 +170,9 @@
                                                 class="text-gray-400 icon-size-5"
                                                 [svgIcon]="'heroicons_solid:x'"></mat-icon>
                                         </ng-container>
-                                    </div>
+                                    </div>-->
 
-                                    <!-- Details button -->
+                                    <!-- Details button 
                                     <div>
                                         <button
                                             class="min-w-10 min-h-7 h-7 px-2 leading-6"
@@ -152,7 +182,7 @@
                                                 class="icon-size-5"
                                                 [svgIcon]="selectedProduct?.id === product.id ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
                                         </button>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <div class="grid">
                                     <ng-container *ngIf="selectedProduct?.id === product.id">

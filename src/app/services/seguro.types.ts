@@ -1,10 +1,9 @@
 export interface Seguro
-{
-    cod_seguro: number;
-    cod_tipo_seguro: number;
-    nom_tipo_seguro: string;
-    vigencia: number;
-    cod_compania: number;
-    nom_compania : string;
-    precio: number;
+{    
+    cod_proceso: number,
+    nom_cliente: string,
+    nom_tipo_seguro: string,
+    nom_status: string,
+    nom_usuario: string,
+    fecha_inicio: string
 }
