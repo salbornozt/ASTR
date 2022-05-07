@@ -162,38 +162,52 @@ export class ContactsService
      * @param id
      * @param contact
      */
-    updateContact(id: number, contact: Contact): Observable<Contact>
+    updateContact(id: number, contact: any): Observable<Contact>
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.patch<Contact>('api/apps/contacts/contact', {
+            switchMap(contacts => this._httpClient.patch<UserResponseModel>('http://localhost:3000/api/client', {
                 id,
                 contact
             }).pipe(
                 map((updatedContact) => {
-
+                    console.log(updatedContact.body.nom_cliente+"<--");
+                    
                     // Find the index of the updated contact
                     const index = contacts.findIndex(item => item.cod_cliente === id);
 
                     // Update the contact
-                    contacts[index] = updatedContact;
+                    let contactEdited : Contact = {
+                        "cod_cliente" :  id,
+                        "cedula" :  updatedContact.body.cedula,
+                        "nom_cliente" :  updatedContact.body.nom_cliente,
+                        "correos" :  updatedContact.body.correos,
+                        "celulares" :  updatedContact.body.celulares,
+                        "ocupacion" :  updatedContact.body.ocupacion,
+                    }
+                    console.log(index+'<- index');
+                    
+                    contacts[index] = contactEdited;
 
                     // Update the contacts
                     this._contacts.next(contacts);
 
                     // Return the updated contact
-                    return updatedContact;
+                    return contact;
                 }),
                 switchMap(updatedContact => this.contact$.pipe(
                     take(1),
                     filter(item => item && item.cod_cliente === id),
                     tap(() => {
+                        console.log(JSON.stringify(updatedContact)+'<- edited');
 
                         // Update the contact if it's selected
+                        
+
                         this._contact.next(updatedContact);
 
                         // Return the updated contact
-                        return updatedContact;
+                        return contact;
                     })
                 ))
             ))

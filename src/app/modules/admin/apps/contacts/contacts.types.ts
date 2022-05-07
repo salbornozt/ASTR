@@ -6,6 +6,7 @@ export interface Contact
     
     nom_cliente: string;
     correos?: {
+        cod_email_cliente : number,
         email: string;
         label: string;
     }[];
@@ -19,7 +20,7 @@ export interface Contact
     birth_date?: string | null;
     direccion?: string | null;
     notes?: string | null;
-    tags: string[];
+    tags?: string[];
 }
 
 export interface Country

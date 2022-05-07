@@ -262,16 +262,17 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         // Go through the contact object and clear empty values
         contact.correos = contact.correos.filter(email => email.email);
 
-        contact.celulares = contact.celulares.filter(celulares => celulares.celulares);
+        contact.celulares = contact.celulares.filter(celulares => celulares.phoneNumber);
         
         console.log(contact);
+        
 
         // Update the contact on the server
-        /*this._contactsService.updateContact(contact.id, contact).subscribe(() => {
+        this._contactsService.updateContact(contact.cod_cliente, contact).subscribe(() => {
 
             // Toggle the edit mode off
             this.toggleEditMode(false);
-        });*/
+        });
     }
 
     /**
