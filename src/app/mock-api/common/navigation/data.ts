@@ -4,14 +4,14 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id      : 'dashboards',
-        title   : 'Dashboards',
+        title   : 'General',
         subtitle: '',
         type    : 'group',
         icon    : 'heroicons_outline:home',
         children: [
             {
                 id   : 'dashboards.project',
-                title: 'Project',
+                title: 'Inicio',
                 type : 'basic',
                 icon : 'heroicons_outline:clipboard-check',
                 link : '/dashboards/project'
