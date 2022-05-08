@@ -46,10 +46,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id      : 'user-interface.forms',
                 title   : 'Seguros',
                 type    : 'collapsable',
-                icon    : 'heroicons_outline:archive',
+                icon    : 'feather:briefcase',
                 children: [
                     
-                
+                    {
+                        id   : 'apps.seguros',
+                        title: 'Listar',
+                        type : 'basic',
+                        link : '/apps/seguros'
+                    },
                 ]
             }
         ]  

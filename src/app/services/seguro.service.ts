@@ -4,12 +4,14 @@ import { UserResponseModel } from 'app/core/user/user.response.model';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { CampoSeguro } from './campo.seguro.type';
 import { Seguro } from './seguro.types';
+import { TipoSeguro } from './tipo.seguro.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SeguroService {
   private _seguros: BehaviorSubject<Seguro[] | null> = new BehaviorSubject(null);
+  private _tiposSeguros: BehaviorSubject<TipoSeguro[] | null> = new BehaviorSubject(null);
   private _camposSeguro : BehaviorSubject<CampoSeguro[] | null> = new BehaviorSubject(null);
 
   constructor(private _httpClient: HttpClient) { }
@@ -19,6 +21,10 @@ export class SeguroService {
   /**
      * Getter for seguros
      */
+  get tiposSeguros$(): Observable<TipoSeguro[]> {
+    return this._tiposSeguros.asObservable();
+  }
+
   get seguros$(): Observable<Seguro[]> {
     return this._seguros.asObservable();
   }
@@ -35,6 +41,19 @@ export class SeguroService {
       tap((result) => {
         console.log(result);
         this._seguros.next(result.body);
+      })
+    );
+  }
+
+  getTipoSeguros(): Observable<UserResponseModel> {
+    return this._httpClient.get<UserResponseModel>('http://127.0.0.1:3000/api/seguros/tipo-seguro/').pipe(
+      tap((result) => {
+        console.log(result);
+        result.body.push({
+          "cod_tipo_seguro" : 0,
+          "nom_tipo_seguro" : "Todos"
+        })
+        this._tiposSeguros.next(result.body);
       })
     );
   }
