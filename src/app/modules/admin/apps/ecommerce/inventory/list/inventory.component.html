@@ -78,7 +78,7 @@
                             <div
                                 class="hidden lg:block"
                                 [mat-sort-header]="'completado'">
-                                Completado
+                                Estado
                             </div>
                             <div
                                 class="hidden lg:block"
@@ -124,11 +124,11 @@
                                     </div>
 
                                     <div class="hidden md:block">
-                                        
+                                        {{product.porcentaje}}
                                     </div>
 
                                     <div class="hidden md:block">
-                                        
+                                        {{product.nom_status}}
                                     </div>
 
                                     <div class="hidden md:block">
@@ -156,7 +156,7 @@
                                             *ngIf="product.stock >= 70">
                                             <div class="flex w-full h-full bg-green-400"></div>
                                         </div>
-                                    </div>-->
+                                    </div>
 
                                     <!-- Active 
                                     <div class="hidden lg:block">
