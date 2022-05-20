@@ -9,7 +9,7 @@
             <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
         <!-- Title -->
-        <div class="text-4xl font-extrabold tracking-tight">Procesos Clientes</div>
+        <div class="text-4xl font-extrabold tracking-tight">Lista Procesos</div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
             <!-- Search -->
@@ -24,15 +24,7 @@
                     [autocomplete]="'off'"
                     [placeholder]="'Search products'">
             </mat-form-field>
-            <!-- Add product button 
-            <button
-                class="ml-4"
-                mat-flat-button
-                [color]="'primary'"
-                (click)="createProduct()">
-                <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
-                <span class="ml-2 mr-1">Add</span>
-            </button>-->
+            
         </div>
     </div>
 
@@ -55,134 +47,104 @@
                                 [mat-sort-header]="'idProceso'">
                                 No.
                             </div>
-                            <div 
-                                class="hidden md:block" 
-                                [mat-sort-header]="'name'">
-                                Seguro
-                            </div>
-                            <div
-                                class="hidden md:block"
-                                [mat-sort-header]="'seguro'">
-                                Cliente
-                            </div>
-                            <div
-                                class="hidden md:block"
-                                [mat-sort-header]="'empleado'">
-                                Empleado
-                            </div>
+
+                            
+
+                            <div [mat-sort-header]="'nameS'">Seguro</div>
+
+                            <div [mat-sort-header]="'nameC'">Cliente</div>
+
+                            <div [mat-sort-header]="'nameE'">Empleado</div>
+
                             <div
                                 class="hidden lg:block"
                                 [mat-sort-header]="'porcentaje'">
-                                Porcentaje
+                                porcentaje
                             </div>
+                            
+
                             <div
                                 class="hidden lg:block"
-                                [mat-sort-header]="'completado'">
-                                Estado
+                                [mat-sort-header]="'complete'">
+                                Completado
                             </div>
-                            <div
-                                class="hidden lg:block"
-                                [mat-sort-header]="'fecha'">
-                                Fecha Inicio
-                            </div>
-                            <!--<div class="hidden sm:block">Details</div>-->
+                       
+
+                            <div class="hidden sm:block">Fecha Inicio</div>
                         </div>
                         <!-- Rows -->
                         <ng-container *ngIf="(procesos$ | async) as products">
                             <ng-container *ngFor="let product of products; trackBy: trackByFn">
                                 <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
 
-                                    <!-- Image 
-                                    <div class="flex items-center">
-                                        <div class="relative flex flex-0 items-center justify-center w-12 h-12 mr-6 rounded overflow-hidden border">
-                                            
-                                            <div
-                                                class="flex items-center justify-center w-full h-full text-xs font-semibold leading-none text-center uppercase"
-                                                *ngIf="!product.thumbnail">
-                                                NO THUMB
-                                            </div>
-                                        </div>
-                                    </div>-->
+                                    
 
-                                    <!-- SKU -->
+                                    <!-- COD -->
                                     <div class="hidden md:block truncate">
                                         {{product.cod_proceso}}
                                     </div>
 
-                                    <!-- Name -->
-                                    <div class="hidden md:block truncate">
+                                    <!-- NameSeguro -->
+                                    <div class="truncate">
                                         {{product.nom_tipo_seguro}}
                                     </div>
 
-                                    
-                                    <div class="hidden md:block truncate">
+                                    <!-- Name CLiente -->
+                                    <div class="truncate">
                                         {{product.nom_cliente}}
                                     </div>
 
-                                    <div class="hidden md:block truncate">
+                                    <!-- Name Empleado -->
+                                    <div class="truncate">
                                         {{product.nom_usuario}}
                                     </div>
 
-                                    <div class="hidden md:block">
-                                        {{product.porcentaje}}
-                                    </div>
 
-                                    <div class="hidden md:block">
-                                        {{product.nom_status}}
-                                    </div>
-
-                                    <div class="hidden md:block">
-                                        {{product.fecha_inicio}}
-                                    </div>
-
-                                    <!-- Stock 
+                                    <!-- Stock -->
                                     <div class="hidden lg:flex items-center">
-                                        <div class="min-w-4">{{product.stock}}</div>
-                                        
+                                        <div class="min-w-4">{{product.porcentaje}}</div>
+                                        <!-- Low stock -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
-                                            *ngIf="product.stock < 20">
+                                            *ngIf="product.porcentaje*100 < 50">
                                             <div class="flex w-full h-1/3 bg-red-600"></div>
                                         </div>
-                                       
+                                        <!-- Medium stock -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
-                                            *ngIf="product.stock >= 20 && product.stock < 60">
+                                            *ngIf="product.porcentaje*100 >= 50 && product.porcentaje*100 < 80">
                                             <div class="flex w-full h-2/4 bg-orange-400"></div>
                                         </div>
-                                        
+                                        <!-- High stock -->
                                         <div
                                             class="flex items-end ml-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
-                                            *ngIf="product.stock >= 70">
+                                            *ngIf="product.porcentaje*100 >= 80">
                                             <div class="flex w-full h-full bg-green-400"></div>
                                         </div>
                                     </div>
 
-                                    <!-- Active 
+                                   
+
+                                    <!-- Active -->
                                     <div class="hidden lg:block">
-                                        <ng-container *ngIf="product.active">
+                                        <ng-container *ngIf="product.nom_status != 'Completado'">
+                                            <mat-icon
+                                                class="text-red-400 icon-size-5"
+                                                [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="product.nom_status ==  'Finalizada'">
                                             <mat-icon
                                                 class="text-green-400 icon-size-5"
                                                 [svgIcon]="'heroicons_solid:check'"></mat-icon>
                                         </ng-container>
-                                        <ng-container *ngIf="!product.active">
-                                            <mat-icon
-                                                class="text-gray-400 icon-size-5"
-                                                [svgIcon]="'heroicons_solid:x'"></mat-icon>
-                                        </ng-container>
-                                    </div>-->
+                                    </div>
+                                     
 
-                                    <!-- Details button 
-                                    <div>
-                                        <button
-                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
-                                            mat-stroked-button
-                                            (click)="toggleDetails(product.id)">
-                                            <mat-icon
-                                                class="icon-size-5"
-                                                [svgIcon]="selectedProduct?.id === product.id ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
-                                        </button>
-                                    </div>-->
+                                    <div class="truncate">
+                                        {{product.fecha_inicio | date: 'shortDate'}}
+                                    </div>
+
+                                    
                                 </div>
                                 <div class="grid">
                                     <ng-container *ngIf="selectedProduct?.id === product.id">
@@ -215,9 +177,9 @@
                             class="flex flex-col w-full"
                             [formGroup]="selectedProductForm">
 
-                            <div class="flex flex-col sm:flex-row p-4">
+                            <div class="flex flex-col sm:flex-row p-8">
 
-                                <!-- Product images and status 
+                                <!-- Product images and status -->
                                 <div class="flex flex-col items-center sm:items-start mb-8 sm:mb-0">
                                     <div class="flex flex-col items-center">
                                         <div class="w-32 h-44 border rounded overflow-hidden">
@@ -255,58 +217,42 @@
                                     <div class="flex flex-col mt-8">
                                         <span class="font-semibold mb-2">Product status</span>
                                         <mat-slide-toggle
-                                            [formControlName]="'active'"
+                                            [formControlName]="'complete'"
                                             [color]="'primary'">
                                             {{selectedProductForm.get('active').value === true ? 'Active' : 'Disabled'}}
                                         </mat-slide-toggle>
                                     </div>
-                                </div>-->
+                                </div>
 
                                 <div class="flex flex-auto flex-wrap">
                                     <!-- Name, SKU & etc. -->
-                                    <div class="flex flex-col w-full lg:w-4/4 sm:pl-8">
+                                    <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
 
                                         <!-- Name -->
-                                    <div class="flex">
-                                        <mat-form-field class="w-2/4 pr-2">
+                                        <mat-form-field class="w-full">
                                             <mat-label>Name</mat-label>
                                             <input
                                                 matInput
-                                                [formControlName]="'name'" readonly>
+                                                [formControlName]="'nameS'">
                                         </mat-form-field>
-
-                                        <mat-form-field class="w-2/4 pr-2">
-                                            <mat-label>Name Empleado</mat-label>
-                                            <input
-                                                matInput
-                                                [formControlName]="'nameEmp'" readonly>
-                                        </mat-form-field>
-                                    </div>
 
                                         <!-- SKU and Barcode -->
                                         <div class="flex">
                                             <mat-form-field class="w-1/3 pr-2">
-                                                <mat-label>IdProceso</mat-label>
+                                                <mat-label>SKU</mat-label>
                                                 <input
                                                     matInput
-                                                    [formControlName]="'idProceso'" readonly>
+                                                    [formControlName]="'sku'">
                                             </mat-form-field>
-                                            <mat-form-field class="w-1/3 pr-2">
-                                                <mat-label>Seguro</mat-label>
+                                            <mat-form-field class="w-2/3 pl-2">
+                                                <mat-label>Barcode</mat-label>
                                                 <input
                                                     matInput
-                                                    [formControlName]="'seguro'" readonly>
-                                            </mat-form-field>
-                                            <mat-form-field class="w-2/3 pr-2">
-                                                <mat-label>Cost</mat-label>
-                                                <span matPrefix>$</span>
-                                                <input
-                                                    matInput
-                                                    [formControlName]="'cost'" readonly>
+                                                    [formControlName]="'barcode'">
                                             </mat-form-field>
                                         </div>
 
-                                        <!-- Category, Brand & Vendor 
+                                        <!-- Category, Brand & Vendor -->
                                         <div class="flex">
                                             <mat-form-field class="w-1/3 pr-2">
                                                 <mat-label>Category</mat-label>
@@ -338,7 +284,7 @@
                                                     </ng-container>
                                                 </mat-select>
                                             </mat-form-field>
-                                        </div>-->
+                                        </div>
 
                                         <!-- Stock and Reserved -->
                                         <div class="flex">
@@ -347,19 +293,8 @@
                                                 <input
                                                     type="number"
                                                     matInput
-                                                    [formControlName]="'stock'" readonly>
+                                                    [formControlName]="'stock'">
                                             </mat-form-field>
-
-                                            <mat-form-field class="w-full">
-                                                <mat-label>Fecha Inicio</mat-label>
-                                                <span matPrefix></span>
-                                                <input
-                                                    matInput
-                                                    [formControlName]="'fechaI'" readonly>
-                                            </mat-form-field>
-
-                                            
-                                            <!--
                                             <mat-form-field class="w-1/3 pl-2">
                                                 <mat-label>Reserved</mat-label>
                                                 <input
@@ -367,14 +302,18 @@
                                                     matInput
                                                     [formControlName]="'reserved'">
                                             </mat-form-field>
-                                            -->
                                         </div>
                                     </div>
 
-                                    <!-- Cost, Base price, Tax & Price 
+                                    <!-- Cost, Base price, Tax & Price -->
                                     <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
-                                    -->
-                                        <!--
+                                        <mat-form-field class="w-full">
+                                            <mat-label>Cost</mat-label>
+                                            <span matPrefix>$</span>
+                                            <input
+                                                matInput
+                                                [formControlName]="'cost'">
+                                        </mat-form-field>
                                         <mat-form-field class="w-full">
                                             <mat-label>Base Price</mat-label>
                                             <span matPrefix>$</span>
@@ -382,8 +321,6 @@
                                                 matInput
                                                 [formControlName]="'basePrice'">
                                         </mat-form-field>
-                                        -->
-                                        <!--
                                         <mat-form-field class="w-full">
                                             <mat-label>Tax</mat-label>
                                             <span matSuffix>%</span>
@@ -392,8 +329,6 @@
                                                 matInput
                                                 [formControlName]="'taxPercent'">
                                         </mat-form-field>
-                                        -->
-                                        <!--
                                         <mat-form-field class="w-full">
                                             <mat-label>Price</mat-label>
                                             <span matSuffix>$</span>
@@ -401,14 +336,10 @@
                                                 matInput
                                                 [formControlName]="'price'">
                                         </mat-form-field>
-                                        
                                     </div>
-                                    -->
 
-                                    <!-- Weight & Tags 
+                                    <!-- Weight & Tags -->
                                     <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
-                                        -->
-                                        <!-- 
                                         <mat-form-field class="w-full">
                                             <mat-label>Weight</mat-label>
                                             <span matSuffix>lbs.</span>
@@ -416,13 +347,11 @@
                                                 matInput
                                                 [formControlName]="'weight'">
                                         </mat-form-field>
-                                        -->
 
-                                        <!-- Tags 
+                                        <!-- Tags -->
                                         <span class="mb-px font-medium leading-tight">Tags</span>
                                         <div class="mt-1.5 rounded-md border border-gray-300 dark:border-gray-500 shadow-sm overflow-hidden">
-                                            -->
-                                            <!-- Header 
+                                            <!-- Header -->
                                             <div class="flex items-center -my-px py-2 px-3">
                                                 <div class="flex items-center flex-auto min-w-0">
                                                     <mat-icon
@@ -451,11 +380,9 @@
                                                         [svgIcon]="'heroicons_solid:check'"></mat-icon>
                                                 </button>
                                             </div>
-                                            -->
-                                            <!-- Available tags 
+                                            <!-- Available tags -->
                                             <div class="h-44 leading-none overflow-y-auto border-t border-gray-300 dark:border-gray-500">
-                                                -->
-                                                <!-- Tags 
+                                                <!-- Tags -->
                                                 <ng-container *ngIf="!tagsEditMode">
                                                     <ng-container *ngFor="let tag of filteredTags; trackBy: trackByFn">
                                                         <mat-checkbox
@@ -467,8 +394,7 @@
                                                         </mat-checkbox>
                                                     </ng-container>
                                                 </ng-container>
-                                                -->
-                                                <!-- Tags editing 
+                                                <!-- Tags editing -->
                                                 <ng-container *ngIf="tagsEditMode">
                                                     <div class="p-4 space-y-2">
                                                         <ng-container *ngFor="let tag of filteredTags; trackBy: trackByFn">
@@ -503,13 +429,10 @@
                                         </div>
 
                                     </div>
-                                    -->
 
                                 </div>
 
                             </div>
-
-                            <!--
 
                             <div class="flex items-center justify-between w-full border-t px-8 py-4">
                                 <button
@@ -544,7 +467,6 @@
                                     </button>
                                 </div>
                             </div>
-                            -->
 
                         </form>
                     </div>
