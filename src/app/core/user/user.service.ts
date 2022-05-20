@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, map, Observable, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserResponseModel } from './user.response.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -61,8 +62,8 @@ export class UserService {
      */
     get(): Observable<UserResponseModel> {
 
-        var token = localStorage.getItem('accessToken');
-        var userId = localStorage.getItem('cod_usuario');
+        var token = sessionStorage.getItem('accessToken');
+        var userId = sessionStorage.getItem('cod_usuario');
         console.log('user Id :'+userId);
         var header = new HttpHeaders({
             'Authorization': 'Bearer ' + token
@@ -70,7 +71,7 @@ export class UserService {
         var options = ({
             headers: header
         });
-        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user/'+userId, options).pipe(
+        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user/'+userId).pipe(
             tap((user) => {
                 this._user.next(user.body);
             })
