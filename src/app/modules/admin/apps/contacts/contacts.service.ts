@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { Contact, Country, Tag } from 'app/modules/admin/apps/contacts/contacts.types';
 import { UserResponseModel } from 'app/core/user/user.response.model';
-
+import { assign, cloneDeep } from 'lodash-es';
 @Injectable({
     providedIn: 'root'
 })
@@ -12,6 +12,7 @@ export class ContactsService
     // Private
     private _contact: BehaviorSubject<Contact | null> = new BehaviorSubject(null);
     private _contacts: BehaviorSubject<Contact[] | null> = new BehaviorSubject(null);
+    private _contactsList: any[] = [];
     private _countries: BehaviorSubject<Country[] | null> = new BehaviorSubject(null);
     private _tags: BehaviorSubject<Tag[] | null> = new BehaviorSubject(null);
 
@@ -76,6 +77,9 @@ export class ContactsService
         });
         return this._httpClient.get<UserResponseModel>('http://127.0.0.1:3000/api/client/',options).pipe(
             tap((contacts) => {
+                this._contactsList = contacts.body;
+                
+                
                 this._contacts.next(contacts.body);
             })
         );
@@ -88,14 +92,52 @@ export class ContactsService
      */
     searchContacts(query: string): Observable<Contact[]>
     {
-        return this._httpClient.get<Contact[]>('api/apps/contacts/search', {
-            params: {query}
-        }).pipe(
-            tap((contacts) => {
-                this._contacts.next(contacts);
-            })
-        );
+        console.log(query);
+        
+        let contacts = cloneDeep(this._contactsList);
+        // If the query exists...
+        if ( query )
+        {
+            // Filter the contacts
+            contacts = contacts.filter(contact => contact.nom_cliente && contact.nom_cliente.toLowerCase().includes(query.toLowerCase()));
+        }
+
+        // Sort the contacts by the name field by default
+        contacts.sort((a, b) => a.nom_cliente.localeCompare(b.nom_cliente));
+        console.log(contacts.length)
+
+        
+        this._contacts.next(contacts);
+        
+        return this._contacts;
     }
+
+    /**
+     * Search contacts with given query
+     *
+     * @param query
+     */
+     filterContacts(query: string): Observable<Contact[]>
+     {
+         console.log(query);
+         
+         let contacts = cloneDeep(this._contactsList);
+         // If the query exists...
+         if ( query )
+         {
+             // Filter the contacts
+             contacts = contacts.filter(contact => contact.nom_cliente && contact.nom_cliente.toLowerCase().startsWith(query.toLowerCase()));
+         }
+ 
+         // Sort the contacts by the name field by default
+         contacts.sort((a, b) => a.nom_cliente.localeCompare(b.nom_cliente));
+         console.log(contacts.length)
+ 
+         
+         this._contacts.next(contacts);
+         
+         return this._contacts;
+     }
 
     /**
      * Get contact by id
@@ -186,6 +228,7 @@ export class ContactsService
                         "ocupacion" :  updatedContact.body.ocupacion,
                     }
                     console.log(index+'<- index');
+                    console.log(updatedContact.body.celulares+'<- sindex');
                     
                     contacts[index] = contactEdited;
 
