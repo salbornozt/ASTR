@@ -146,12 +146,13 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                 {
                     // Iterate through them
                     contact.celulares.forEach((phoneNumber) => {
-
+                        console.log(phoneNumber);
+                        
                         // Create an email form group
                         phoneNumbersFormGroups.push(
                             this._formBuilder.group({
                                 country    : [phoneNumber.country],
-                                phoneNumber: [phoneNumber.numero],
+                                numero: [phoneNumber.numero],
                                 label      : [phoneNumber.label]
                             })
                         );
@@ -163,7 +164,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                     phoneNumbersFormGroups.push(
                         this._formBuilder.group({
                             country    : ['us'],
-                            phoneNumber: [''],
+                            numero: [''],
                             label      : ['']
                         })
                     );
@@ -258,12 +259,13 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
     {
         // Get the contact object
         const contact = this.contactForm.getRawValue();
-
+        
+        
         // Go through the contact object and clear empty values
         contact.correos = contact.correos.filter(email => email.email);
 
-        contact.celulares = contact.celulares.filter(celulares => celulares.phoneNumber);
-        
+        contact.celulares = contact.celulares.filter(celulares => celulares.numero);
+        console.log('->'+contact.celulares[0].numero);
         console.log(contact);
         
 
@@ -673,7 +675,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         // Create an empty phone number form group
         const phoneNumberFormGroup = this._formBuilder.group({
             country    : ['co'],
-            phoneNumber: [''],
+            numero: [''],
             label      : ['']
         });
 

@@ -22,6 +22,7 @@ export class ContactsListComponent implements OnInit, OnDestroy
 
     contactsCount: number = 0;
     contactsTableColumns: string[] = ['name', 'email', 'phoneNumber', 'job'];
+    filterValues: string[] = ['TODOS','A', 'B', 'C', 'D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
     countries: Country[];
     drawerMode: 'side' | 'over';
     searchInputControl: FormControl = new FormControl();
@@ -56,6 +57,8 @@ export class ContactsListComponent implements OnInit, OnDestroy
         this._contactsService.contacts$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contacts: Contact[]) => {
+                console.log(contacts);
+                
 
                 // Update the counts
                 this.contactsCount = contacts.length;
@@ -169,6 +172,16 @@ export class ContactsListComponent implements OnInit, OnDestroy
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
+    }
+
+    filterByLetter(letter:string){
+        if(letter == "TODOS"){
+            this._contactsService.filterContacts('')
+        }else{
+            this._contactsService.filterContacts(letter)
+        }
+        
+        
     }
 
     /**

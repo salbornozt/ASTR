@@ -118,7 +118,7 @@
                         <div class="flex">
                             <mat-icon [svgIcon]="'heroicons_outline:phone'"></mat-icon>
                             <div class="min-w-0 ml-6 space-y-1">
-                                <ng-container *ngFor="let phoneNumber of contact.celulares; trackBy: trackByFn">
+                                <ng-container *ngFor="let phoneNumbers of contact.celulares; trackBy: trackByFn">
                                     <div class="flex items-center leading-6">
                                         <div
                                             class="hidden sm:flex w-6 h-4 overflow-hidden"
@@ -127,12 +127,12 @@
                                             [style.backgroundSize]="'24px 3876px'"
                                             [style.backgroundPosition]="getCountryByIso().flagImagePos"></div>
                                         <div class="sm:ml-3 font-mono">{{getCountryByIso().code}}</div>
-                                        <div class="ml-2.5 font-mono">{{phoneNumber.numero}}</div>
+                                        <div class="ml-2.5 font-mono">{{phoneNumbers.numero}}</div>
                                         <div
                                             class="text-md truncate text-secondary"
-                                            *ngIf="phoneNumber.label">
+                                            *ngIf="phoneNumbers.label">
                                             <span class="mx-2">&bull;</span>
-                                            <span class="font-medium">{{phoneNumber.label}}</span>
+                                            <span class="font-medium">{{phoneNumbers.label}}</span>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -250,7 +250,7 @@
                     <!-- Name -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Name</mat-label>
+                            <mat-label>Nombre</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -268,7 +268,7 @@
                     <!-- Title -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Title</mat-label>
+                            <mat-label>Ocupación</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -283,7 +283,7 @@
                     <!-- Company -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Company</mat-label>
+                            <mat-label>Empresa</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -313,7 +313,7 @@
                                             [spellcheck]="false">
                                     </mat-form-field>
                                     <mat-form-field class="fuse-mat-no-subscript flex-auto w-full max-w-24 sm:max-w-40 ml-2 sm:ml-4">
-                                        <mat-label *ngIf="first">Label</mat-label>
+                                        <mat-label *ngIf="first">Etiqueta</mat-label>
                                         <mat-icon
                                             matPrefix
                                             class="hidden sm:flex icon-size-5"
@@ -348,7 +348,7 @@
                             <mat-icon
                                 class="icon-size-5"
                                 [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
-                            <span class="ml-2 font-medium text-secondary group-hover:underline">Add an email address</span>
+                            <span class="ml-2 font-medium text-secondary group-hover:underline">Agregar una dirección de correo electrónico</span>
                         </div>
                     </div>
 
@@ -358,10 +358,10 @@
                             <ng-container *ngFor="let phoneNumber of contactForm.get('celulares')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
                                 <div class="relative flex">
                                     <mat-form-field class="fuse-mat-no-subscript flex-auto">
-                                        <mat-label *ngIf="first">Phone</mat-label>
+                                        <mat-label *ngIf="first">Teléfono</mat-label>
                                         <input
                                             matInput
-                                            [formControl]="phoneNumber.get('phoneNumber')"
+                                            [formControl]="phoneNumber.get('numero')"
                                             [placeholder]="'Phone'">
                                         <mat-select
                                             class="mr-1.5"
@@ -393,7 +393,7 @@
                                         </mat-select>
                                     </mat-form-field>
                                     <mat-form-field class="fuse-mat-no-subscript flex-auto w-full max-w-24 sm:max-w-40 ml-2 sm:ml-4">
-                                        <mat-label *ngIf="first">Label</mat-label>
+                                        <mat-label *ngIf="first">Etiqueta</mat-label>
                                         <mat-icon
                                             matPrefix
                                             class="hidden sm:flex icon-size-5"
@@ -428,14 +428,14 @@
                             <mat-icon
                                 class="icon-size-5"
                                 [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
-                            <span class="ml-2 font-medium text-secondary group-hover:underline">Add a phone number</span>
+                            <span class="ml-2 font-medium text-secondary group-hover:underline">Agregar un número de teléfono</span>
                         </div>
                     </div>
 
                     <!-- Address -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Address</mat-label>
+                            <mat-label>Dirección</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -450,7 +450,7 @@
                     <!-- Birthday -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Birthday</mat-label>
+                            <mat-label>Cumpleaños</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -494,7 +494,7 @@
                             [color]="'warn'"
                             [matTooltip]="'Delete'"
                             (click)="deleteContact()">
-                            Delete
+                            Borrar
                         </button>
                         <!-- Cancel -->
                         <button
@@ -502,7 +502,7 @@
                             mat-button
                             [matTooltip]="'Cancel'"
                             (click)="toggleEditMode(false)">
-                            Cancel
+                            Cancelar
                         </button>
                         <!-- Save -->
                         <button
@@ -512,7 +512,7 @@
                             [disabled]="contactForm.invalid"
                             [matTooltip]="'Save'"
                             (click)="updateContact()">
-                            Save
+                            Guardar
                         </button>
                     </div>
 
