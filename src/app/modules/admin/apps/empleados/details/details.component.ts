@@ -67,14 +67,11 @@ export class EmpleadoDetailsComponent implements OnInit, OnDestroy
         // Create the contact form
         this.contactForm = this._formBuilder.group({
             cod_usuario          : [''],
-            avatar      : [null],
-            nom_cliente        : ['', [Validators.required]],            
-            ocupacion       : [''],
-            company     : [''],
-            birth_date    : [null],
-            direccion     : [null],
-            notes       : [null],
-            tags        : [[]]
+            avatar      : [null],            
+            nom_usuario        : ['', [Validators.required]],  
+            apellido_usuario : [''],         
+            tipo_usuario: [''],
+            celular:['']
         });
 
         // Get the contacts
@@ -98,7 +95,10 @@ export class EmpleadoDetailsComponent implements OnInit, OnDestroy
                 // Get the contact
                 this.contact = contact;
 
-                
+             
+
+                // Patch values to the form
+                this.contactForm.patchValue(contact);
 
                 // Toggle the edit mode off
                 this.toggleEditMode(false);
@@ -186,18 +186,22 @@ export class EmpleadoDetailsComponent implements OnInit, OnDestroy
         const contact = this.contactForm.getRawValue();
 
         // Go through the contact object and clear empty values
-        contact.correos = contact.correos.filter(email => email.email);
+        //contact.correos = contact.correos.filter(email => email.email);
 
-        contact.celulares = contact.celulares.filter(celulares => celulares.celulares);
+        //contact.celulares = contact.celulares.filter(celulares => celulares.celulares);
         
         console.log(contact);
 
-        // Update the contact on the server
-        /*this._contactsService.updateContact(contact.id, contact).subscribe(() => {
+        console.log(contact.cod_usuario+"<-- cod")
+
+         //Update the contact on the server
+        this._contactsService.updateContact(contact.cod_usuario, contact).subscribe(() => {
+
+            console.log(contact.cod_usuario+"<-- cod")
 
             // Toggle the edit mode off
             this.toggleEditMode(false);
-        });*/
+        });
     }
 
     /**

@@ -173,6 +173,17 @@ export class EmpleadoListComponent implements OnInit, OnDestroy
     }
 
     /**
+     * Export List Excel
+     */
+
+    downloadExcel(contactsCount): void
+    {
+        this._contactsService.downloadExcel(contactsCount);
+        console.log("lo hizo");
+        
+    }
+
+    /**
      * Create contact
      */
     createContact(): void

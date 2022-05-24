@@ -130,6 +130,18 @@ export class EmpleadoService
     }
 
     /**
+     * 
+     * Export list Excel
+     */
+
+     downloadExcel(contactsCount): void
+     {
+        this._httpClient.post('http://localhost:3000/api/exports',contactsCount).subscribe()
+        console.log("Entro")
+        console.log(contactsCount)
+     }
+
+    /**
      * Create contact
      */
     createContact(): Observable<UserResponseModel>
@@ -152,41 +164,62 @@ export class EmpleadoService
     /**
      * Update contact
      *
-     * @param id
+     * @param cod_usuario
      * @param contact
      */
-    updateContact(id: number, contact: Empleado): Observable<Empleado>
+    updateContact(cod_usuario: number, contact: any): Observable<Empleado>
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.patch<Empleado>('api/apps/contacts/contact', {
-                id,
+            switchMap(contacts => this._httpClient.put<UserResponseModel>('http://localhost:3000/api/user', {
+                cod_usuario,
                 contact
             }).pipe(
                 map((updatedContact) => {
-
+                    console.log(updatedContact.body.nom_cliente+"<--");
+                    
                     // Find the index of the updated contact
-                    const index = contacts.findIndex(item => item.cod_usuario === id);
+                    const index = contacts.findIndex(item => item.cod_usuario === cod_usuario);
 
                     // Update the contact
-                    contacts[index] = updatedContact;
+                    let contactEdited : Empleado = {
+                        "cod_usuario" :  cod_usuario,
+                        "documento" :  updatedContact.body.documento,
+                        "nom_usuario" :  updatedContact.body.nom_usuario,
+                        
+                        "celular" :  updatedContact.body.celular,
+                        "apellido_usuario" :  updatedContact.body.apellido_usuario,
+                        "email": updatedContact.body.email,
+                        "contrasena": updatedContact.body.contrasena,
+                        "tipo_usuario": updatedContact.body.tipo_usuario
+
+                    }
+                    console.log(index+'<- index');
+                    
+                    contacts[index] = contactEdited;
 
                     // Update the contacts
                     this._contacts.next(contacts);
 
                     // Return the updated contact
-                    return updatedContact;
+                    console.log("NOooo1")
+                    return contact;
                 }),
                 switchMap(updatedContact => this.contact$.pipe(
                     take(1),
-                    filter(item => item && item.cod_usuario === id),
+                    filter(item => item && item.cod_usuario === cod_usuario),
                     tap(() => {
+                        console.log(JSON.stringify(updatedContact)+'<- edited');
 
                         // Update the contact if it's selected
+                        
+
                         this._contact.next(updatedContact);
 
+                        console.log("NOooo")
+
                         // Return the updated contact
-                        return updatedContact;
+                        return contact;
                     })
                 ))
             ))
@@ -200,9 +233,10 @@ export class EmpleadoService
      */
     deleteContact(id: number): Observable<UserResponseModel>
     {
+        console.log(id)
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.delete('http://localhost:3000/api/client', {params: {id}}).pipe(
+            switchMap(contacts => this._httpClient.delete('http://localhost:3000/api/user/'+id, {params: {id}}).pipe(
                 map((result: UserResponseModel) => {
 
                     // Find the index of the deleted contact
