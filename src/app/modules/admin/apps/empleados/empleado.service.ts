@@ -130,6 +130,18 @@ export class EmpleadoService
     }
 
     /**
+     * 
+     * Export list Excel
+     */
+
+     downloadExcel(contactsCount): void
+     {
+        this._httpClient.post('http://localhost:3000/api/exports',contactsCount).subscribe()
+        console.log("Entro")
+        console.log(contactsCount)
+     }
+
+    /**
      * Create contact
      */
     createContact(): Observable<UserResponseModel>
