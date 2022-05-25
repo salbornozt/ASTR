@@ -76,6 +76,9 @@ export const appRoutes: Route[] = [
         resolve: {
             initialData: InitialDataResolver,
         },
+        data: {
+            layout: 'classy'
+        },
 
 
         

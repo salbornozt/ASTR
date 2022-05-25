@@ -30,12 +30,21 @@ export class AuthService {
         sessionStorage.setItem('accessToken', token);
     }
 
+    set userType(str:string){
+        localStorage.setItem('userType', str);
+        sessionStorage.setItem('userType', str);
+    }
+
     set userId(id: string) {
         sessionStorage.setItem('cod_usuario', id);
     }
 
     set userEmail(email: string) {
         sessionStorage.setItem('email', email);
+    }
+
+    get userType(): string {
+        return sessionStorage.getItem('userType') ?? '';
     }
 
     get accessToken(): string {
@@ -108,6 +117,7 @@ export class AuthService {
 
                 this.userId = aux.cod_usuario;
                 this.userEmail = aux.email;
+                this.userType = aux.tipo_usuario;
 
                 // Store the user on the user service
                 this._userService.setUser(aux);
@@ -147,6 +157,7 @@ export class AuthService {
                     let aux = AuthUtils._decodeToken(this.accessToken)
                     this.userId = aux.cod_usuario;
                     this.userEmail = aux.email;
+                    this.userType = aux.tipo_usuario;
                     console.log(this.userEmail);
                     
     
