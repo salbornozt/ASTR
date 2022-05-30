@@ -71,7 +71,7 @@ export class UserService {
         var options = ({
             headers: header
         });
-        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user/'+userId).pipe(
+        return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/user/'+userId).pipe(
             tap((user) => {
                 this._user.next(user.body);
             })
@@ -92,7 +92,23 @@ export class UserService {
         var options = ({
             headers: header
         });
-        return this._httpClient.put('http://localhost:3000/api/user/', { user },options).pipe(
+        return this._httpClient.put('http://192.81.219.225:3000/api/user/', { user },options).pipe(
+            map((response) => {
+                this._user.next(user);
+            })
+        );
+    }
+
+    update2(user: User): Observable<any> {
+        var token = localStorage.getItem('accessToken');
+        console.log('token : Bearer '+token);
+        var header = new HttpHeaders({
+            'Authorization': 'Bearer ' + token
+        });
+        var options = ({
+            headers: header
+        });
+        return this._httpClient.put('http://192.81.219.225:3000/api/user/perfil/', { user },options).pipe(
             map((response) => {
                 this._user.next(user);
             })
@@ -103,7 +119,7 @@ export class UserService {
      * get list of users
      */
     list():Observable<UserResponseModel> {
-        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user').pipe(
+        return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/user').pipe(
             tap((response) => {
                 this._users.next(response.body);
             })
@@ -111,7 +127,7 @@ export class UserService {
     }
 
     listEmpleados():Observable<UserResponseModel> {
-        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user/empleados').pipe(
+        return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/user/empleados').pipe(
             tap((response) => {
                 console.log(response.body);
                 

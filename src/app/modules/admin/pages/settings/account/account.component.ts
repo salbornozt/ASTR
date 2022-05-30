@@ -131,7 +131,7 @@ export class SettingsAccountComponent implements OnInit, OnDestroy
             celular : data.phone
         }
 
-        this._userService.update(auxUser).subscribe((value)=>{
+        this._userService.update2(auxUser).subscribe((value)=>{
             this.accountForm.enable();
             this.openSuccesDialog();
         },(error) =>{

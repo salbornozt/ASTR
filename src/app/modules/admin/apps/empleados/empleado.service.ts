@@ -67,7 +67,7 @@ export class EmpleadoService
      */
     getContacts(): Observable<UserResponseModel>
     {        
-        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user/empleados').pipe(
+        return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/user/empleados').pipe(
             tap((contacts) => {
                 this._contacts.next(contacts.body);
             })
@@ -95,7 +95,7 @@ export class EmpleadoService
      */
     getContactById(id: string): Observable<UserResponseModel>
     {
-        return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/user/empleados/'+id).pipe(
+        return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/user/empleados/'+id).pipe(
             tap((contact) => {
                 console.log(contact.body.correos)
                // Update the contact
@@ -136,7 +136,7 @@ export class EmpleadoService
 
      downloadExcel(contactsCount): void
      {
-        this._httpClient.post('http://localhost:3000/api/exports',contactsCount).subscribe()
+        this._httpClient.post('http://192.81.219.225:3000/api/exports',contactsCount).subscribe()
         console.log("Entro")
         console.log(contactsCount)
      }
@@ -148,7 +148,7 @@ export class EmpleadoService
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.post<UserResponseModel>('http://localhost:3000/api/user/empleados/', {}).pipe(
+            switchMap(contacts => this._httpClient.post<UserResponseModel>('http://192.81.219.225:3000/api/user/empleados/', {}).pipe(
                 map((newContact) => {
 
                     // Update the contacts with the new contact
@@ -171,7 +171,7 @@ export class EmpleadoService
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.put<UserResponseModel>('http://localhost:3000/api/user', {
+            switchMap(contacts => this._httpClient.put<UserResponseModel>('http://192.81.219.225:3000/api/user', {
                 cod_usuario,
                 contact
             }).pipe(
@@ -236,7 +236,7 @@ export class EmpleadoService
         console.log(id)
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.delete('http://localhost:3000/api/user/'+id, {params: {id}}).pipe(
+            switchMap(contacts => this._httpClient.delete('http://192.81.219.225:3000/api/user/'+id, {params: {id}}).pipe(
                 map((result: UserResponseModel) => {
 
                     // Find the index of the deleted contact
