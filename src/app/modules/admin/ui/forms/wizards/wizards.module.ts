@@ -9,6 +9,16 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { SharedModule } from 'app/shared/shared.module';
+
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormsWizardsComponent } from 'app/modules/admin/ui/forms/wizards/wizards.component';
 
 export const routes: Route[] = [
@@ -32,6 +42,17 @@ export const routes: Route[] = [
         MatRadioModule,
         MatSelectModule,
         MatStepperModule,
+        SharedModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatDividerModule,
+        MatIconModule,
+        MatMenuModule,
+        MatProgressBarModule,
+        MatSortModule,
+        MatTableModule,
+        MatTooltipModule,
+        NgApexchartsModule,
         SharedModule
     ]
 })
