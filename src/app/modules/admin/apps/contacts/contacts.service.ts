@@ -210,7 +210,7 @@ export class ContactsService
         
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.patch<UserResponseModel>('http://localhost:3000/api/client', {
+            switchMap(contacts => this._httpClient.patch<UserResponseModel>('http://192.81.219.225:3000/api/client', {
                 id,
                 contact
             }).pipe(
