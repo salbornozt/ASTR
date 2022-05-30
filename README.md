@@ -1,35 +1,13 @@
-# Fuse - Admin template and Starter project for Angular
+# Proyecto ASTR 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli)
+Este proyecto fue desarrollado en Angular consumiendo una API que se encuentra en la carpeta llamada node, esta última es indispensable para el buen funcionamiento de la aplicación. Por lo que si no ha puesto en funcionamiento está primero le recomendamos vaya al README.md de la API para poner en marcha la aplicación sin ningún inconveniente.
 
-## Development server
+## Importando el proyecto
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Una vez descargado el proyecto, elija el editor de texto de su preferencia, nosotros recomendamos visual studio code por hechos de contener una terminal que facilita el correr los comando sin tener que ir a la consola del sistema operativo. Una vez abierto vaya a la esquina superior izquierda en el apartado de "file" o "archivo" escogiendo la opcion "open folder" y busque el apartado donde guardo la el proyecto, seleccione la carpeta con nombre **ASTR**.
 
-## Code scaffolding
+## Ejecutando el proyecto
+Sitúese en la terminal, si no encuentra una en el editor de texto vaya al apartado superior en la opción terminal y seleccione la opción "nueva terminal". Ya la haya localizado, asegúrese la ruta de la consola sea la correcta de acuerdo donde haya guardado el proyecto, esta última debe terminar en ASTR `C:\Usuarios\tuUsuario\..\...\...\ASTR>`.
+Ahora bien, digite el siguiente comando en la consola `npm install -g @angular/cli` esto con el fin de utilizar la CLI de Angular para crear proyectos, generar aplicaciones y código de biblioteca, y realizar una variedad de tareas de desarrollo continuas, como pruebas, agrupación e implementación. 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice.  To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-
-## DB CONNECTION
-
-user : postgres
-host : 35.225.16.55
-database : esquivia_db
-password : MyDbASTR_DT_2021
-port : 5432
+Por último corra el comando `ng serve -o` para poner en funcionamiento el proyecto, se debe abrir la página web automáticamente cuando termine de compilar. Dado el caso no sea el caso, vaya a su navegador de preferencia y diríjase a `http://localhost:4200/`.
