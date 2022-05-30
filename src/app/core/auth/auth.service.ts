@@ -101,7 +101,7 @@ export class AuthService {
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('http://192.81.219.225:3000/api/login/', credentials).pipe(
+        return this._httpClient.post('https://astr-api-app.herokuapp.com/api/login/', credentials).pipe(
             switchMap((response: any) => {
                 console.log('here ' + response)
                 // Store the access token in the local storage
@@ -135,7 +135,7 @@ export class AuthService {
      */
     signInUsingToken(): Observable<boolean> {
         // Renew token
-        return this._httpClient.post('http://192.81.219.225:3000/api/login/token-refresh', {
+        return this._httpClient.post('https://astr-api-app.herokuapp.com/api/login/token-refresh', {
             user: {
                 email: this.userEmail
             },

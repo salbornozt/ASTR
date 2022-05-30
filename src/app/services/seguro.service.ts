@@ -37,7 +37,7 @@ export class SeguroService {
   }
 
   getSeguros(): Observable<UserResponseModel> {
-    return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/seguros/').pipe(
+    return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/seguros/').pipe(
       tap((result) => {
         console.log(result);
         this._seguros.next(result.body);
@@ -46,7 +46,7 @@ export class SeguroService {
   }
 
   getTipoSeguros(): Observable<UserResponseModel> {
-    return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/seguros/tipo-seguro/').pipe(
+    return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/seguros/tipo-seguro/').pipe(
       tap((result) => {
         console.log(result);
         result.body.push({
@@ -60,7 +60,7 @@ export class SeguroService {
 
 
   getCamposSeguros(cod_seg :number):Observable<UserResponseModel> {
-    return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/campos/'+cod_seg).pipe(
+    return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/campos/'+cod_seg).pipe(
       tap((result) => {
         console.log('Campos '+result.body);
         this._camposSeguro.next(result.body);

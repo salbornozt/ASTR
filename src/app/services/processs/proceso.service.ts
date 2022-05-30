@@ -17,7 +17,7 @@ export class ProcesoService {
 
 
    add(req :any): Observable<any>{
-     return this._httpClient.post('http://192.81.219.225:3000/api/procesos/', req).pipe(
+     return this._httpClient.post('https://astr-api-app.herokuapp.com/api/procesos/', req).pipe(
       switchMap((response: any) => {
           console.log(response);
           
@@ -29,7 +29,7 @@ export class ProcesoService {
 
    getProcesos(): Observable<UserResponseModel>
     {        //cambiar url
-        return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/procesos').pipe(
+        return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/procesos').pipe(
             tap((result) => {
                 this._procesos.next(result.body);
                 console.log(result);                

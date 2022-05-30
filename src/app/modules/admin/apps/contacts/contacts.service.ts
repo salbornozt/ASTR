@@ -75,7 +75,7 @@ export class ContactsService
         var options = ({
             headers: header
         });
-        return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/client/',options).pipe(
+        return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/client/',options).pipe(
             tap((contacts) => {
                 this._contactsList = contacts.body;
                 
@@ -144,7 +144,7 @@ export class ContactsService
      */
     getContactById(id: string): Observable<UserResponseModel>
     {
-        return this._httpClient.get<UserResponseModel>('http://192.81.219.225:3000/api/client/'+id).pipe(
+        return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/client/'+id).pipe(
             tap((contact) => {
                 console.log(contact.body.correos)
                // Update the contact
@@ -185,7 +185,7 @@ export class ContactsService
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.post<UserResponseModel>('http://192.81.219.225:3000/api/client/', {}).pipe(
+            switchMap(contacts => this._httpClient.post<UserResponseModel>('https://astr-api-app.herokuapp.com/api/client/', {}).pipe(
                 map((newContact) => {
 
                     // Update the contacts with the new contact
@@ -210,7 +210,7 @@ export class ContactsService
         
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.patch<UserResponseModel>('http://192.81.219.225:3000/api/client', {
+            switchMap(contacts => this._httpClient.patch<UserResponseModel>('https://astr-api-app.herokuapp.com/api/client', {
                 id,
                 contact
             }).pipe(
@@ -268,7 +268,7 @@ export class ContactsService
     {
         return this.contacts$.pipe(
             take(1),
-            switchMap(contacts => this._httpClient.delete('http://192.81.219.225:3000/api/client', {params: {id}}).pipe(
+            switchMap(contacts => this._httpClient.delete('https://astr-api-app.herokuapp.com/api/client', {params: {id}}).pipe(
                 map((result: UserResponseModel) => {
 
                     // Find the index of the deleted contact
