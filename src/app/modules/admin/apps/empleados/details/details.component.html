@@ -181,7 +181,7 @@
                     <!-- Name -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Name</mat-label>
+                            <mat-label>Nombre</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -245,7 +245,7 @@
                             [color]="'warn'"
                             [matTooltip]="'Delete'"
                             (click)="deleteContact()">
-                            Delete
+                            Borrar
                         </button>
                         <!-- Cancel -->
                         <button
@@ -253,7 +253,7 @@
                             mat-button
                             [matTooltip]="'Cancel'"
                             (click)="toggleEditMode(false)">
-                            Cancel
+                            Cancelar
                         </button>
                         <!-- Save -->
                         <button
@@ -263,7 +263,7 @@
                             [disabled]="contactForm.invalid"
                             [matTooltip]="'Save'"
                             (click)="updateContact()">
-                            Save
+                            Guardar
                         </button>
                     </div>
 

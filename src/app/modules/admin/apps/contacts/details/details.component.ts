@@ -92,7 +92,8 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         this._contactsService.contact$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contact: Contact) => {
-
+                console.log('cliente selec '+contact.celulares[0].numero);
+                
                 // Open the drawer in case it is closed
                 this._contactsListComponent.matDrawer.open();
 
@@ -163,7 +164,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
                     // Create a phone number form group
                     phoneNumbersFormGroups.push(
                         this._formBuilder.group({
-                            country    : ['us'],
+                            country    : ['co'],
                             numero: [''],
                             label      : ['']
                         })
@@ -284,11 +285,11 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
     {
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title  : 'Delete contact',
-            message: 'Are you sure you want to delete this contact? This action cannot be undone!',
+            title  : 'Borrar contacto',
+            message: '¿Está seguro de que desea eliminar este contacto? ¡Esta acción no se puede deshacer!',
             actions: {
                 confirm: {
-                    label: 'Delete'
+                    label: 'Eliminar'
                 }
             }
         });
@@ -694,7 +695,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
     removePhoneNumberField(index: number): void
     {
         // Get form array for phone numbers
-        const phoneNumbersFormArray = this.contactForm.get('phoneNumbers') as FormArray;
+        const phoneNumbersFormArray = this.contactForm.get('celulares') as FormArray;
 
         // Remove the phone number field
         phoneNumbersFormArray.removeAt(index);

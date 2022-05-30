@@ -258,7 +258,7 @@
                             <input
                                 matInput
                                 [formControlName]="'nom_cliente'"
-                                [placeholder]="'Name'"
+                                [placeholder]="'Nombre'"
                                 [spellcheck]="false">
                         </mat-form-field>
                     </div>
@@ -276,7 +276,7 @@
                             <input
                                 matInput
                                 [formControlName]="'ocupacion'"
-                                [placeholder]="'Job title'">
+                                [placeholder]="'Ocupacion'">
                         </mat-form-field>
                     </div>
 
@@ -291,7 +291,7 @@
                             <input
                                 matInput
                                 [formControlName]="'company'"
-                                [placeholder]="'Company'">
+                                [placeholder]="'Compañia'">
                         </mat-form-field>
                     </div>
 
@@ -309,7 +309,7 @@
                                         <input
                                             matInput
                                             [formControl]="email.get('email')"
-                                            [placeholder]="'Email address'"
+                                            [placeholder]="'Correo'"
                                             [spellcheck]="false">
                                     </mat-form-field>
                                     <mat-form-field class="fuse-mat-no-subscript flex-auto w-full max-w-24 sm:max-w-40 ml-2 sm:ml-4">
@@ -362,7 +362,7 @@
                                         <input
                                             matInput
                                             [formControl]="phoneNumber.get('numero')"
-                                            [placeholder]="'Phone'">
+                                            [placeholder]="'Celular/Telefono'">
                                         <mat-select
                                             class="mr-1.5"
                                             [formControl]="phoneNumber.get('country')"
@@ -443,7 +443,7 @@
                             <input
                                 matInput
                                 [formControlName]="'direccion'"
-                                [placeholder]="'Address'">
+                                [placeholder]="'Dirección'">
                         </mat-form-field>
                     </div>
 
@@ -459,7 +459,7 @@
                                 matInput
                                 [matDatepicker]="birthdayDatepicker"
                                 [formControlName]="'birth_date'"
-                                [placeholder]="'Birthday'">
+                                [placeholder]="'Cumpleaños'">
                             <mat-datepicker-toggle
                                 matSuffix
                                 [for]="birthdayDatepicker">
@@ -479,7 +479,7 @@
                             <textarea
                                 matInput
                                 [formControlName]="'notes'"
-                                [placeholder]="'Notes'"
+                                [placeholder]="'Notas'"
                                 [rows]="5"
                                 [spellcheck]="false"
                                 matTextareaAutosize></textarea>
