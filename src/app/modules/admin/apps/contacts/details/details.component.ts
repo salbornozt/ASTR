@@ -92,7 +92,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
         this._contactsService.contact$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contact: Contact) => {
-                console.log('cliente selec '+contact.celulares[0].numero);
+                //console.log('cliente selec '+contact.nom_cliente);
                 
                 // Open the drawer in case it is closed
                 this._contactsListComponent.matDrawer.open();

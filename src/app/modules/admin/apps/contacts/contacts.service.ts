@@ -146,7 +146,7 @@ export class ContactsService
     {
         return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/client/'+id).pipe(
             tap((contact) => {
-                console.log(contact.body.correos)
+                console.log('here -> '+contact.body)
                // Update the contact
                this._contact.next(contact.body);
             })
