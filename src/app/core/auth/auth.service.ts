@@ -4,7 +4,7 @@ import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { User } from '../user/user.types';
-
+import { environment } from '../../../environments/environment';
 @Injectable()
 export class AuthService {
     private _authenticated: boolean = false;
@@ -101,7 +101,7 @@ export class AuthService {
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('https://astr-api-app.herokuapp.com/api/login/', credentials).pipe(
+        return this._httpClient.post(`${environment.APIEndpoint}`+'api/login/', credentials).pipe(
             switchMap((response: any) => {
                 console.log('here ' + response)
                 // Store the access token in the local storage
@@ -135,7 +135,7 @@ export class AuthService {
      */
     signInUsingToken(): Observable<boolean> {
         // Renew token
-        return this._httpClient.post('https://astr-api-app.herokuapp.com/api/login/token-refresh', {
+        return this._httpClient.post(`${environment.APIEndpoint}`+'api/login/token-refresh', {
             user: {
                 email: this.userEmail
             },

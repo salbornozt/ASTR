@@ -4,7 +4,7 @@ import { BehaviorSubject, map, Observable, ReplaySubject, tap } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserResponseModel } from './user.response.model';
 import { AuthService } from '../auth/auth.service';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
     providedIn: 'root'
 })
@@ -71,7 +71,7 @@ export class UserService {
         var options = ({
             headers: header
         });
-        return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/user/'+userId).pipe(
+        return this._httpClient.get<UserResponseModel>(`${environment.APIEndpoint}`+'api/user/'+userId).pipe(
             tap((user) => {
                 this._user.next(user.body);
             })
@@ -92,7 +92,7 @@ export class UserService {
         var options = ({
             headers: header
         });
-        return this._httpClient.put('https://astr-api-app.herokuapp.com/api/user/', { user },options).pipe(
+        return this._httpClient.put(`${environment.APIEndpoint}`+'api/user/', { user },options).pipe(
             map((response) => {
                 this._user.next(user);
             })
@@ -108,7 +108,7 @@ export class UserService {
         var options = ({
             headers: header
         });
-        return this._httpClient.put('https://astr-api-app.herokuapp.com/api/user/perfil/', { user },options).pipe(
+        return this._httpClient.put(`${environment.APIEndpoint}`+'api/user/perfil/', { user },options).pipe(
             map((response) => {
                 this._user.next(user);
             })
@@ -119,7 +119,7 @@ export class UserService {
      * get list of users
      */
     list():Observable<UserResponseModel> {
-        return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/user').pipe(
+        return this._httpClient.get<UserResponseModel>(`${environment.APIEndpoint}`+'api/user').pipe(
             tap((response) => {
                 this._users.next(response.body);
             })
@@ -127,7 +127,7 @@ export class UserService {
     }
 
     listEmpleados():Observable<UserResponseModel> {
-        return this._httpClient.get<UserResponseModel>('https://astr-api-app.herokuapp.com/api/user/empleados').pipe(
+        return this._httpClient.get<UserResponseModel>(`${environment.APIEndpoint}`+'api/user/empleados').pipe(
             tap((response) => {
                 console.log(response.body);
                 
