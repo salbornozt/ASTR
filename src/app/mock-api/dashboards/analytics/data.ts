@@ -1568,32 +1568,32 @@ export const analytics = {
         uniqueVisitors: 46085,
         series        : [80, 20],
         labels        : [
-            'New',
-            'Returning'
+            'Afinidad',
+            'Disimilitud'
         ]
     },
     gender             : {
         uniqueVisitors: 46085,
         series        : [55, 45],
         labels        : [
-            'Male',
-            'Female'
+            'Afinidad',
+            'Disimilitud'
         ]
     },
     age                : {
         uniqueVisitors: 46085,
         series        : [35, 65],
         labels        : [
-            'Under 30',
-            'Over 30'
+            'Afinidad',
+            'Disimilitud'
         ]
     },
     language           : {
         uniqueVisitors: 46085,
         series        : [25, 75],
         labels        : [
-            'English',
-            'Other'
+            'Afinidad',
+            'Disimilitud'
         ]
     }
 };

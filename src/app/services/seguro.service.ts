@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { CampoSeguro } from './campo.seguro.type';
 import { Seguro } from './seguro.types';
 import { TipoSeguro } from './tipo.seguro.type';
-
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -37,7 +37,7 @@ export class SeguroService {
   }
 
   getSeguros(): Observable<UserResponseModel> {
-    return this._httpClient.get<UserResponseModel>('http://127.0.0.1:3000/api/seguros/').pipe(
+    return this._httpClient.get<UserResponseModel>(`${environment.APIEndpoint}`+'api/seguros/').pipe(
       tap((result) => {
         console.log(result);
         this._seguros.next(result.body);
@@ -46,7 +46,7 @@ export class SeguroService {
   }
 
   getTipoSeguros(): Observable<UserResponseModel> {
-    return this._httpClient.get<UserResponseModel>('http://127.0.0.1:3000/api/seguros/tipo-seguro/').pipe(
+    return this._httpClient.get<UserResponseModel>(`${environment.APIEndpoint}`+'api/seguros/tipo-seguro/').pipe(
       tap((result) => {
         console.log(result);
         result.body.push({
@@ -60,7 +60,7 @@ export class SeguroService {
 
 
   getCamposSeguros(cod_seg :number):Observable<UserResponseModel> {
-    return this._httpClient.get<UserResponseModel>('http://localhost:3000/api/campos/'+cod_seg).pipe(
+    return this._httpClient.get<UserResponseModel>(`${environment.APIEndpoint}`+'api/campos/'+cod_seg).pipe(
       tap((result) => {
         console.log('Campos '+result.body);
         this._camposSeguro.next(result.body);
