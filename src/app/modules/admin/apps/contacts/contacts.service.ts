@@ -226,6 +226,7 @@ export class ContactsService
                         "cod_cliente" :  id,
                         "cedula" :  updatedContact.body.cedula,
                         "nom_cliente" :  updatedContact.body.nom_cliente,
+                        "apellido_cliente" : updatedContact.body.apellido_cliente,
                         "correos" :  updatedContact.body.correos,
                         "celulares" :  updatedContact.body.celulares,
                         "ocupacion" :  updatedContact.body.ocupacion,

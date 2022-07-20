@@ -5,6 +5,7 @@ export interface Contact
     avatar?: string | null;
     
     nom_cliente: string;
+    apellido_cliente: string;
     correos?: {
         cod_email_cliente : number,
         email: string;

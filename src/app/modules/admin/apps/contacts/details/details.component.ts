@@ -68,6 +68,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
             cod_cliente          : [''],
             avatar      : [null],
             nom_cliente        : ['', [Validators.required]],
+            apellido_cliente        : [''],
             cedula        : [''],
             correos      : this._formBuilder.array([]),
             celulares: this._formBuilder.array([]),
