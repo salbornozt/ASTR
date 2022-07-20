@@ -68,6 +68,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
             cod_cliente          : [''],
             avatar      : [null],
             nom_cliente        : ['', [Validators.required]],
+            cedula        : [''],
             correos      : this._formBuilder.array([]),
             celulares: this._formBuilder.array([]),
             ocupacion       : [''],
@@ -93,6 +94,7 @@ export class ContactsDetailsComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((contact: Contact) => {
                 //console.log('cliente selec '+contact.nom_cliente);
+                console.log('here ->> '+contact.cedula);
                 
                 // Open the drawer in case it is closed
                 this._contactsListComponent.matDrawer.open();
