@@ -1,20 +1,20 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { BehaviorSubject, combineLatest, debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { debounceTime, map, merge, Observable, Subject, switchMap, takeUntil } from 'rxjs';
-import { fuseAnimations } from '@fuse/animations';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from 'app/modules/admin/apps/ecommerce/inventory/inventory.types';
-import { InventoryService } from 'app/modules/admin/apps/ecommerce/inventory/inventory.service';
-import { ProcesoService } from 'app/services/processs/proceso.service';
+import { InventoryBrand, InventoryCategory, InventoryPagination, InventoryProduct, InventoryTag, InventoryVendor } from '../inventory.types';
 import { Proceso } from 'app/services/processs/proceso.types';
+import { ProcesoService } from 'app/services/processs/proceso.service';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { InventoryService } from '../inventory.service';
 import { UserResponseModel } from 'app/core/user/user.response.model';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
-    selector       : 'inventory-list',
-    templateUrl    : './inventory.component.html',
+    selector       : 'academy-list',
+    templateUrl    : './list.component.html',
     styles         : [
         /* language=SCSS */
         `
@@ -22,15 +22,15 @@ import { UserResponseModel } from 'app/core/user/user.response.model';
                 grid-template-columns: 48px auto 40px;
 
                 @screen sm {
-                    grid-template-columns: 48px auto 112px 72px;
-                }
+                    grid-template-columns: 48px auto 112px 72px 72px;
+                } 
 
                 @screen md {
-                    grid-template-columns: 48px 112px auto 112px 72px;
+                    grid-template-columns: 48px 112px auto 112px 72px 88px;
                 }
 
                 @screen lg {
-                    grid-template-columns: 48px 112px auto 112px 96px 96px 72px;
+                    grid-template-columns: 48px 112px auto 112px 96px 96px 72px 88px;
                 }
             }
         `
@@ -39,11 +39,11 @@ import { UserResponseModel } from 'app/core/user/user.response.model';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations     : fuseAnimations
 })
-export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
+export class AcademyListComponent implements OnInit, AfterViewInit, OnDestroy
 {
     @ViewChild(MatPaginator) private _paginator: MatPaginator;
     @ViewChild(MatSort) private _sort: MatSort;
-
+    
     products$: Observable<InventoryProduct[]>;
     procesos$: Observable<Proceso[]>;
 
@@ -185,7 +185,7 @@ export class InventoryListComponent implements OnInit, AfterViewInit, OnDestroy
                 switchMap((query) => {
                     this.closeDetails();
                     this.isLoading = true;
-                    return this._inventoryService.getProducts(0, 10, 'name', 'asc', query);
+                    return this._procesosServices.searchProcesos(query);
                 }),
                 map(() => {
                     this.isLoading = false;

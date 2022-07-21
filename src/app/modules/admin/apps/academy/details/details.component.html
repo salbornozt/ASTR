@@ -1,0 +1,723 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <mat-drawer-container class="flex-auto h-full">
+
+        <!-- Drawer -->
+        <mat-drawer class="w-90 dark:bg-gray-900" [autoFocus]="false" [mode]="drawerMode" [opened]="drawerOpened"
+            #matDrawer>
+            <div class="flex flex-col items-start p-8 border-b">
+                <!-- Back to courses -->
+                <a class="inline-flex items-center leading-6 text-primary hover:underline" [routerLink]="['..']">
+                    <span class="inline-flex items-center">
+                        <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:arrow-sm-left'">
+                        </mat-icon>
+                        <span class="ml-1.5 font-medium leading-5">Volver</span>
+                    </span>
+                </a>
+                <!-- Course category -->
+                <ng-container *ngIf="(course.category | fuseFindByKey:'slug':categories) as category">
+                    <div class="mt-7 py-0.5 px-3 rounded-full text-sm font-semibold"
+                        [ngClass]="{'text-blue-800 bg-blue-100 dark:text-blue-50 dark:bg-blue-500': category.slug === 'abierto',
+                                    'text-green-800 bg-green-100 dark:text-green-50 dark:bg-green-500': category.slug === 'android',
+                                    'text-pink-800 bg-pink-100 dark:text-pink-50 dark:bg-pink-500': category.slug === 'cerrado',
+                                    'text-amber-800 bg-amber-100 dark:text-amber-50 dark:bg-amber-500': category.slug === 'firebase'}">
+                        Abierto
+                    </div>
+                </ng-container>
+                <!-- Course title & description -->
+                <div class="mt-3 text-2xl font-semibold">Nombre del Seguro</div>
+                <div class="text-secondary">Nombre del Cliente</div>
+                <!-- Course time -->
+                <div class="mt-6 flex items-center leading-5 text-md text-secondary">
+                    <mat-icon class="icon-size-5 text-hint" [svgIcon]="'heroicons_solid:clock'"></mat-icon>
+                    <div class="ml-1.5">Última fecha de actualización</div>
+                </div>
+            </div>
+
+            <!-- Steps -->
+            <div class="py-2 px-8">
+                <ol>
+                    <ng-container *ngFor="let step of course.steps; let last = last; trackBy: trackByFn">
+                        <li class="relative group py-6" [class.current-step]="step.order === currentStep">
+                            <ng-container *ngIf="!last">
+                                <div class="absolute top-6 left-4 w-0.5 h-full -ml-px" [ngClass]="{'bg-primary': step.order < currentStep,
+                                                'bg-gray-300 dark:bg-gray-600': step.order >= currentStep}"></div>
+                            </ng-container>
+                            <div class="relative flex items-start cursor-pointer" (click)="goToStep(step.order)">
+                                <div class="flex flex-0 items-center justify-center w-8 h-8 rounded-full ring-2 ring-inset ring-transparent bg-card dark:bg-default"
+                                    [ngClass]="{'bg-primary dark:bg-primary text-on-primary group-hover:bg-primary-800': step.order < currentStep,
+                                                'ring-primary': step.order === currentStep,
+                                                'ring-gray-300 dark:ring-gray-600 group-hover:ring-gray-400': step.order > currentStep}">
+                                    <!-- Check icon, show if the step is completed -->
+                                    <ng-container *ngIf="step.order < currentStep">
+                                        <mat-icon class="icon-size-5 text-current" [svgIcon]="'heroicons_solid:check'">
+                                        </mat-icon>
+                                    </ng-container>
+                                    <!-- Step order, show if the step is the current step -->
+                                    <ng-container *ngIf="step.order === currentStep">
+                                        <div class="text-md font-semibold text-primary dark:text-primary-500">
+                                            {{step.order + 1}}</div>
+                                    </ng-container>
+                                    <!-- Step order, show if the step is not completed -->
+                                    <ng-container *ngIf="step.order > currentStep">
+                                        <div class="text-md font-semibold text-hint group-hover:text-secondary">
+                                            {{step.order + 1}}</div>
+                                    </ng-container>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="font-medium leading-4">{{step.title}}</div>
+                                    <div class="mt-1.5 text-md leading-4 text-secondary">{{step.subtitle}}</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ng-container>
+                </ol>
+            </div>
+
+        </mat-drawer>
+
+        <!-- Drawer content -->
+        <mat-drawer-content class="flex flex-col overflow-hidden">
+
+            <!-- Header -->
+            <div
+                class="lg:hidden flex flex-0 items-center py-2 pl-4 pr-6 sm:py-4 md:pl-6 md:pr-8 border-b lg:border-b-0 bg-card dark:bg-transparent">
+                <!-- Title & Actions -->
+                <button mat-icon-button [routerLink]="['..']">
+                    <mat-icon [svgIcon]="'heroicons_outline:arrow-sm-left'"></mat-icon>
+                </button>
+                <h2 class="ml-2.5 text-md sm:text-xl font-medium tracking-tight truncate">
+                    {{course.title}}
+                </h2>
+            </div>
+            <mat-progress-bar class="hidden lg:block flex-0 h-0.5 w-full"
+                [value]="100 * (currentStep + 1) / course.totalSteps"></mat-progress-bar>
+
+            <!-- Main -->
+            <div class="flex-auto overflow-y-auto" cdkScrollable>
+
+                <!-- Steps -->
+                <!-- FASE 0 -------------------------------->
+                <mat-tab-group class="fuse-mat-no-header" [animationDuration]="'200'" #courseSteps>
+                    <mat-tab>
+                        <ng-template matTabContent>
+                            <div
+                                class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card">
+
+                                <h2 class="text-2xl sm:text-3xl">Resumen</h2>
+                                <p class="lead">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aperiam
+                                    lab et fugiat id magnam minus nemo quam
+                                    voluptatem. Culpa deleniti explica nisi quod soluta.
+                                </p>
+                                <hr>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:hashtag'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Número</strong>
+                                        <ul>
+                                            <li>0031325151</li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                <hr>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:view-boards'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Seguro</strong>
+                                        <ul>
+                                            <li>Automóviles</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Cliente</strong>
+                                        <ul>
+                                            <li>Jose Perpés</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Empleados Encargados</strong>
+
+                                        <ul>
+                                            <li>Mr Clind - Iniciación</li>
+                                            <li>Mr Clind - Cotización</li>
+                                            <li>Mr Rosalia - Negociación</li>
+                                            <li>Mr Perez - Recabación de documentos</li>
+                                            <li>Mr Suerex - Seguimineto</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:calendar'"></mat-icon>
+
+                                    <div class="ml-6 leading-6">
+                                        <strong>Fecha de Inicio</strong>
+
+                                        <ul>
+                                            <li>10/15/2022</li>
+                                        </ul>
+                                        <strong>Fecha de Renovación</strong>
+
+                                        <ul>
+                                            <li>10/15/2022</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+                    <!-- END OF FASE 0 -------------------------------->
+                    <!--FASE 1---->
+                    <mat-tab>
+                        <ng-template matTabContent>
+                            <div
+                                class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card">
+
+                                <h2 class="text-2xl sm:text-3xl">Iniciación</h2>
+
+                                <p class="lead">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aperiam
+                                    lab et fugiat id magnam minus nemo quam
+                                    voluptatem. Culpa deleniti explica nisi quod soluta.
+                                </p>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Empleado Asignado</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <mat-select [formControlName]="'country'" [placeholder]="'Seleccionar'"
+                                            required>
+                                            <mat-option value="country-1">Country 1</mat-option>
+                                            <mat-option value="country-2">Country 2</mat-option>
+                                            <mat-option value="country-3">Country 3</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                
+                                <hr>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:view-boards'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Seguro</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <mat-select [formControlName]="'country'" [placeholder]="'Seleccionar'"
+                                            required>
+                                            <mat-option value="country-1">Country 1</mat-option>
+                                            <mat-option value="country-2">Country 2</mat-option>
+                                            <mat-option value="country-3">Country 3</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <hr>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:user'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Cliente</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <mat-select [formControlName]="'country'" [placeholder]="'Seleccionar'"
+                                            required>
+                                            <mat-option value="country-1">Country 1</mat-option>
+                                            <mat-option value="country-2">Country 2</mat-option>
+                                            <mat-option value="country-3">Country 3</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <hr>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:cash'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Presupuesto</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <input matInput [formControlName]="'email'" [placeholder]="'$ 000.000'"
+                                            required>
+
+                                    </mat-form-field>
+                                </div>
+                                <hr>
+                                <div class="flex">
+                                    <mat-icon [svgIcon]="'heroicons_outline:menu-alt-2'"></mat-icon>
+                                    <div class="max-w-none ml-6 prose prose-sm">
+                                        <strong>Comentarios</strong>
+                                        <textarea
+                                matInput
+                                [formControlName]="'notes'"
+                                [placeholder]="'notas'"
+                                [rows]="5"
+                                [spellcheck]="false"
+                                matTextareaAutosize></textarea>
+                                    </div>
+                                </div>
+                                <hr>
+                                
+                                
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:collection'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Documentos</strong>
+                                        <p>
+                                            Registrar aquellos documentos necesarios para la Cotización.
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <ng-container
+                                    *ngFor="let email of phase1Form.get('emails')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
+                                    <div class="flex">
+                                        <mat-form-field
+                                            class="fuse-mat-no-subscript flex-auto w-full max-w-24 sm:max-w-40 ">
+                                            <mat-label *ngIf="first">Etiqueta</mat-label>
+                                            <mat-icon matPrefix class="hidden sm:flex icon-size-5"
+                                                [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                                            <input matInput [formControl]="email.get('label')" [placeholder]="'Label'">
+                                        </mat-form-field>
+                                        <mat-form-field
+                                            class="fuse-mat-no-subscript flex-auto w-full max-w-28 sm:max-w-40 ml-2 sm:ml-4">
+                                            <mat-label *ngIf="first">Valor</mat-label>
+
+                                            <input matInput [formControl]="email.get('value')" [placeholder]="'Label'">
+                                        </mat-form-field>
+
+                                        <mat-form-field class="fuse-mat-no-subscript flex-auto ml-2 sm:ml-4">
+                                            <mat-label *ngIf="first">Link</mat-label>
+
+                                            <input matInput [formControl]="email.get('email')"
+                                                [placeholder]="'Email address'" [spellcheck]="false">
+                                        </mat-form-field>
+
+                                        <!-- Remove email -->
+                                        <ng-container *ngIf="!(first && last)">
+                                            <div class="flex items-center w-10 pl-2" [ngClass]="{'mt-6': first}">
+                                                <button class="w-8 h-8 min-h-8" mat-icon-button
+                                                    (click)="removeEmailField(i)" matTooltip="Remove">
+                                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:trash'">
+                                                    </mat-icon>
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <ng-container *ngIf="!(last)">
+                                        <br>
+                                    </ng-container>
+
+
+                                </ng-container>
+                                
+                                <div class="group inline-flex items-center mt-2 -ml-4 py-2 px-4 rounded cursor-pointer"
+                                    (click)="addEmailField()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+                                    <span class="ml-2 font-medium text-secondary group-hover:underline">Agregar un campo</span>
+                                </div>
+                                <br>
+                                
+
+
+                            </div>
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <!-- END OF FASE 1 -------------------------------->
+
+                    <!--FASE 2---->
+                    <mat-tab>
+                        <ng-template matTabContent>
+                            <div
+                                class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card">
+
+                                <h2 class="text-2xl sm:text-3xl">Cotización</h2>
+
+                                <p class="lead">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aperiam
+                                    lab et fugiat id magnam minus nemo quam
+                                    voluptatem. Culpa deleniti explica nisi quod soluta.
+                                </p>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Empleado Asignado</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <mat-select [formControlName]="'country'" [placeholder]="'Seleccionar'"
+                                            required>
+                                            <mat-option value="country-1">Country 1</mat-option>
+                                            <mat-option value="country-2">Country 2</mat-option>
+                                            <mat-option value="country-3">Country 3</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <hr>
+                                <h3>
+                                    Cotización 1
+                                </h3>
+                                <!-- Name -->
+                                <mat-form-field class="w-full">
+                                    <mat-label>Nombre de Póliza</mat-label>
+                                    <input matInput [formControlName]="'name'">
+                                </mat-form-field>
+
+                                <!-- SKU and Barcode -->
+                                <div class="flex">
+                                    <mat-form-field class="w-1/3 pr-2">
+                                        <mat-label>Código</mat-label>
+                                        <input matInput [formControlName]="'sku'">
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/3 pl-2">
+                                        <mat-label>Compañia</mat-label>
+                                        <input matInput [formControlName]="'barcode'">
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/3 pl-2">
+                                        <mat-label>Tipo</mat-label>
+                                        <input matInput [formControlName]="'barcode'">
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="w-full">
+                                        <mat-label>Valor</mat-label>
+                                        <span matPrefix>$</span>
+                                        <input
+                                            matInput
+                                            [formControlName]="'cost'">
+                                    </mat-form-field>
+                                </div>
+                                <div class="group inline-flex items-center mt-2 -ml-4 py-2 px-4 rounded cursor-pointer"
+                                    (click)="addEmailField()">
+                                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+                                    <span class="ml-2 font-medium text-secondary group-hover:underline">Agregar Cotización</span>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <!-- END OF FASE 2 -------------------------------->
+
+
+                    <!--FASE 3 ---->
+                    <mat-tab>
+                        <ng-template matTabContent>
+                            <div
+                                class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card">
+
+                                <h2 class="text-2xl sm:text-3xl">Negociación</h2>
+
+                                <p class="lead">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aperiam
+                                    lab et fugiat id magnam minus nemo quam
+                                    voluptatem. Culpa deleniti explica nisi quod soluta.
+                                </p>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Empleado Asignado</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <mat-select [formControlName]="'country'" [placeholder]="'Seleccionar'"
+                                            required>
+                                            <mat-option value="country-1">Country 1</mat-option>
+                                            <mat-option value="country-2">Country 2</mat-option>
+                                            <mat-option value="country-3">Country 3</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                        
+
+                                <hr>
+
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:annotation'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Resultado de la negociación</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <mat-select [formControlName]="'country'" [placeholder]="'Seleccionar'"
+                                            required>
+                                            <mat-option value="country-1">Aceptar y seguir</mat-option>
+                                            <mat-option value="country-2">Negar y parar</mat-option>
+                                        
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                
+                            </div>
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <!-- END OF FASE 3 -------------------------------->
+
+
+                    <!--FASE 4 ---->
+                    <mat-tab>
+                        <ng-template matTabContent>
+                            <div
+                                class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card">
+
+                                <h2 class="text-2xl sm:text-3xl">Recabación de Documentos</h2>
+
+                                <p class="lead">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aperiam
+                                    lab et fugiat id magnam minus nemo quam
+                                    voluptatem. Culpa deleniti explica nisi quod soluta.
+                                </p>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Empleado Asignado</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <mat-select [formControlName]="'country'" [placeholder]="'Seleccionar'"
+                                            required>
+                                            <mat-option value="country-1">Country 1</mat-option>
+                                            <mat-option value="country-2">Country 2</mat-option>
+                                            <mat-option value="country-3">Country 3</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                        
+
+                                <hr>
+                                <div class="flex">
+                                    <mat-form-field class="fuse-mat-no-subscript flex-auto">
+                                        <mat-label>Cedula</mat-label>
+                                        <input matInput >
+                                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:pencil'">
+                                        </mat-icon>
+                                    </mat-form-field>
+                                    <hr>
+                                    <mat-form-field
+                                        class="fuse-mat-no-subscript flex-auto w-full max-w-24 sm:max-w-90 ml-2 sm:ml-4">
+                                        <mat-label></mat-label>
+                                        <input matInput  [placeholder]="'URL'">
+                                        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_outline:paper-clip'">
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                
+                                
+                            </div>
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <!-- END OF FASE 4 -------------------------------->
+
+                    <!--FASE 5 ---->
+                    <mat-tab>
+                        <ng-template matTabContent>
+                            <div
+                                class="prose prose-sm max-w-3xl mx-auto sm:my-2 lg:mt-4 p-6 sm:p-10 sm:py-12 rounded-2xl shadow overflow-hidden bg-card">
+
+                                <h2 class="text-2xl sm:text-3xl">Seguimineto</h2>
+
+                                <p class="lead">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aperiam
+                                    lab et fugiat id magnam minus nemo quam
+                                    voluptatem. Culpa deleniti explica nisi quod soluta.
+                                </p>
+                                <div class="flex sm:items-center">
+                                    <mat-icon [svgIcon]="'heroicons_outline:identification'"></mat-icon>
+                                    <div class="ml-6 leading-6">
+                                        <strong>Empleado Asignado</strong>
+
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="flex">
+                                    <mat-form-field class="flex-auto">
+                                        <mat-select [formControlName]="'country'" [placeholder]="'Seleccionar'"
+                                            required>
+                                            <mat-option value="country-1">Country 1</mat-option>
+                                            <mat-option value="country-2">Country 2</mat-option>
+                                            <mat-option value="country-3">Country 3</mat-option>
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                </div>
+                                <hr>
+                                
+                                <h3>
+                                    Póliza
+                                </h3>
+                                <!-- Name -->
+                                <mat-form-field class="w-full">
+                                    <mat-label>Nombre de Seguro</mat-label>
+                                    <input matInput >
+                                </mat-form-field>
+
+                                <mat-form-field class="w-full">
+                                    <mat-label>Número de Póliza</mat-label>
+                                    <input matInput >
+                                </mat-form-field>
+
+                                <div class="flex">
+                                    <mat-form-field class="w-1/3 pr-2">
+                                        <mat-label>Código</mat-label>
+                                        <input matInput >
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/3 pl-2">
+                                        <mat-label>Compañia</mat-label>
+                                        <input matInput >
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/3 pl-2">
+                                        <mat-label>Tipo</mat-label>
+                                        <input matInput >
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="w-1/2 pr-2">
+                                        <mat-label>Valor</mat-label>
+                                        <span matPrefix>$</span>
+                                        <input
+                                            matInput
+                                            [formControlName]="'cost'">
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/2 pl-2">
+                                        <mat-label>Fecha de renovación</mat-label>
+                                        <span matPrefix>DD/MM/YYYY</span>
+                                        <input
+                                            matInput
+                                        >
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex">
+                                    <mat-form-field class="w-1/2 pr-2">
+                                        <mat-label>Nombre de póliza</mat-label>
+                                        <input
+                                            matInput
+                                        >
+                                    </mat-form-field>
+                                    <mat-form-field class="w-1/2 pl-2">
+                                        <mat-label>Link de póliza</mat-label>
+                                        <input
+                                            matInput
+                                        >
+                                    </mat-form-field>
+                                </div>
+                                
+                                
+                            </div>
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <!-- END OF FASE 5 -------------------------------->
+                </mat-tab-group>
+
+                <!-- Navigation - Desktop -->
+                <div class="z-10 sticky hidden lg:flex bottom-4 p-4">
+                    <div class="flex items-center justify-center mx-auto p-2 rounded-full shadow-lg bg-primary">
+                        <button class="flex-0" mat-flat-button [color]="'primary'" (click)="goToPreviousStep()">
+                            <mat-icon class="mr-2" [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
+                            <span class="mr-1">Ant.</span>
+                        </button>
+                        <div class="flex items-center justify-center mx-2.5 font-medium leading-5 text-on-primary">
+                            <span>{{currentStep + 1}}</span>
+                            <span class="mx-0.5 text-hint">/</span>
+                            <span>{{course.totalSteps}}</span>
+                        </div>
+                        <button class="flex-0" mat-flat-button [color]="'primary'" (click)="goToNextStep()">
+                            <span class="ml-1">Sig.</span>
+                            <mat-icon class="ml-2" [svgIcon]="'heroicons_outline:arrow-narrow-right'"></mat-icon>
+                        </button>
+                    </div>
+                    <!-- Save -->
+                    <button class="flex items-center justify-center" mat-flat-button [color]="'primary'"
+                        [matTooltip]="'Save'">
+                        Guardar
+                    </button>
+                </div>
+
+
+            </div>
+
+            <!-- Progress & Navigation - Mobile -->
+            <div class="lg:hidden flex items-center p-4 border-t bg-card">
+                <button mat-icon-button (click)="matDrawer.toggle()">
+                    <mat-icon [svgIcon]="'heroicons_outline:view-list'"></mat-icon>
+                </button>
+                <div class="flex items-center justify-center ml-1 lg:ml-2 font-medium leading-5">
+                    <span>{{currentStep + 1}}</span>
+                    <span class="mx-0.5 text-hint">/</span>
+                    <span>{{course.totalSteps}}</span>
+                </div>
+                <mat-progress-bar class="flex-auto ml-6 rounded-full"
+                    [value]="100 * (currentStep + 1) / course.totalSteps"></mat-progress-bar>
+                <button class="ml-4" mat-icon-button (click)="goToPreviousStep()">
+                    <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
+                </button>
+                <button class="ml-0.5" mat-icon-button (click)="goToNextStep()">
+                    <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-right'"></mat-icon>
+                </button>
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>

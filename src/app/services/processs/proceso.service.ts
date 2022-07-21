@@ -36,4 +36,26 @@ export class ProcesoService {
             })
         );
     }
+
+    searchProcesos(search:string = '') : Observable<UserResponseModel>
+    {
+        console.log('query '+search);
+        if(search.length == 0){
+            return this._httpClient.get<UserResponseModel>(`${environment.APIEndpoint}`+'api/procesos').pipe(
+                tap((result) => {
+                    this._procesos.next(result.body);
+                    console.log(result);                
+                })
+            );
+        } else{
+            return this._httpClient.get<UserResponseModel>(`${environment.APIEndpoint}`+'api/procesos/search/'+search).pipe(
+                tap((result) => {
+                    this._procesos.next(result.body);
+                    console.log(result);                
+                })
+            );    
+        }
+        
+        
+    }
 }
