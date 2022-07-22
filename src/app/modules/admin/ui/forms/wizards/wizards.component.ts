@@ -12,9 +12,9 @@ import { SeguroService } from 'app/services/seguro.service';
 import { Seguro } from 'app/services/seguro.types';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ApexOptions } from 'ng-apexcharts';
-
 import { AnalyticsService } from 'app/modules/admin/ui/forms/wizards/analytics.service';
 import { ProjectService } from 'app/modules/admin/dashboards/project/project.service';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -66,8 +66,7 @@ export class FormsWizardsComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _procesoService: ProcesoService,
         private _analyticsService: AnalyticsService,
-        private _projectService: ProjectService
-    ) {
+        private _projectService: ProjectService    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -198,12 +197,13 @@ export class FormsWizardsComponent implements OnInit, OnDestroy {
         // Get the contact object
         const stepForm = this.horizontalStepperForm.getRawValue();
         console.log(stepForm);
+        const currentDate = new Date();
         let proceso = {
             "cod_seguro": stepForm.step1.seguroSeleccionado,
             "cod_usuario": stepForm.step1.empleadoSeleccionado,
             "cod_cliente": stepForm.step1.clienteSeleccionado,
             "cod_status": 1,
-            "fecha_inicio": "2022-04-24",
+            "fecha_inicio": formatDate(currentDate, 'yyyy-MM-dd', 'en-US'),
             "fecha_final": "2022-04-24"
         }
 
@@ -212,7 +212,7 @@ export class FormsWizardsComponent implements OnInit, OnDestroy {
             "campos": stepForm.campos
         }
         this._procesoService.add(req).subscribe(() => {
-            this._router.navigateByUrl('/apps/ecommerce/inventory');
+            this._router.navigateByUrl('/apps/academy');
 
         }, (response) => {
         });
