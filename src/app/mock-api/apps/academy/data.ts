@@ -2,13 +2,13 @@
 export const categories = [
     {
         id   : '9a67dff7-3c38-4052-a335-0cef93438ff6',
-        title: 'Web',
-        slug : 'web'
+        title: 'Abierto',
+        slug : 'abierto'
     },
     {
         id   : 'a89672f5-e00d-4be4-9194-cb9d29f82165',
-        title: 'Firebase',
-        slug : 'firebase'
+        title: 'Cerrado',
+        slug : 'cerrado'
     },
     {
         id   : '02f42092-bb23-4552-9ddb-cfdcc235d48f',
@@ -27,14 +27,14 @@ export const courses = [
         title      : 'Basics of Angular',
         slug       : 'basics-of-angular',
         description: 'Introductory course for Angular and framework basics',
-        category   : 'web',
+        category   : 'abierto',
         duration   : 30,
-        totalSteps : 11,
+        totalSteps : 6,
         updatedAt  : 'Jun 28, 2021',
         featured   : true,
         progress   : {
-            currentStep: 3,
-            completed  : 2
+            currentStep: 0,
+            completed  : 3
         }
     },
     {
@@ -652,68 +652,38 @@ export const demoCourseContent = `
 export const demoCourseSteps = [
     {
         order   : 0,
-        title   : 'Introduction',
-        subtitle: 'Introducing the library and how it works',
-        content : `<h2 class="text-2xl sm:text-3xl">Introduction</h1> ${demoCourseContent}`
+        title   : 'Resumen',
+        subtitle: 'Resumen del proceso',
+        content : `<h2 class="text-2xl sm:text-3xl">Resumen</h1> ${demoCourseContent}`
     },
     {
         order   : 1,
-        title   : 'Get the sample code',
+        title   : 'Iniciación',
         subtitle: 'Where to find the sample code and how to access it',
         content : `<h2 class="text-2xl sm:text-3xl">Get the sample code</h1> ${demoCourseContent}`
     },
     {
         order   : 2,
-        title   : 'Create a Firebase project and Set up your app',
+        title   : 'Cotización',
         subtitle: 'How to create a basic Firebase project and how to run it locally',
         content : `<h2 class="text-2xl sm:text-3xl">Create a Firebase project and Set up your app</h1> ${demoCourseContent}`
     },
     {
         order   : 3,
-        title   : 'Install the Firebase Command Line Interface',
+        title   : 'Negociación',
         subtitle: 'Setting up the Firebase CLI to access command line tools',
         content : `<h2 class="text-2xl sm:text-3xl">Install the Firebase Command Line Interface</h1> ${demoCourseContent}`
     },
     {
         order   : 4,
-        title   : 'Deploy and run the web app',
+        title   : 'Recabación de los documentos',
         subtitle: 'How to build, push and run the project remotely',
         content : `<h2 class="text-2xl sm:text-3xl">Deploy and run the web app</h1> ${demoCourseContent}`
     },
     {
         order   : 5,
-        title   : 'The Functions Directory',
+        title   : 'Seguimiento',
         subtitle: 'Introducing the Functions and Functions Directory',
         content : `<h2 class="text-2xl sm:text-3xl">The Functions Directory</h1> ${demoCourseContent}`
-    },
-    {
-        order   : 6,
-        title   : 'Import the Cloud Functions and Firebase Admin modules',
-        subtitle: 'Create your first Function and run it to administer your app',
-        content : `<h2 class="text-2xl sm:text-3xl">Import the Cloud Functions and Firebase Admin modules</h1> ${demoCourseContent}`
-    },
-    {
-        order   : 7,
-        title   : 'Welcome New Users',
-        subtitle: 'How to create a welcome message for the new users',
-        content : `<h2 class="text-2xl sm:text-3xl">Welcome New Users</h1> ${demoCourseContent}`
-    },
-    {
-        order   : 8,
-        title   : 'Images moderation',
-        subtitle: 'How to moderate images; crop, resize, optimize',
-        content : `<h2 class="text-2xl sm:text-3xl">Images moderation</h1> ${demoCourseContent}`
-    },
-    {
-        order   : 9,
-        title   : 'New Message Notifications',
-        subtitle: 'How to create and push a notification to a user',
-        content : `<h2 class="text-2xl sm:text-3xl">New Message Notifications</h1> ${demoCourseContent}`
-    },
-    {
-        order   : 10,
-        title   : 'Congratulations!',
-        subtitle: 'Nice work, you have created your first application',
-        content : `<h2 class="text-2xl sm:text-3xl">Congratulations!</h1> ${demoCourseContent}`
     }
 ];

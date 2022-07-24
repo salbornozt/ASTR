@@ -70,7 +70,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id   : 'apps.ecommerce.inventory',
                 title: 'Lista de Procesos',
                 type : 'basic',
-                link : '/apps/ecommerce/inventory'
+                link : '/apps/academy'
             },
             {
                 id   : 'user-interface.forms.wizards',
@@ -163,7 +163,7 @@ export const compactNavigation: FuseNavigationItem[] = [
                 id   : 'apps.ecommerce.inventory',
                 title: 'Lista de Procesos',
                 type : 'basic',
-                link : '/apps/ecommerce/inventory'
+                link : '/apps/academy'
             },
             {
                 id   : 'user-interface.forms.wizards',
@@ -263,7 +263,7 @@ export const horizontalNavigation: FuseNavigationItem[] = [
                 id   : 'apps.ecommerce.inventory',
                 title: 'Lista de Procesos',
                 type : 'basic',
-                link : '/apps/ecommerce/inventory'
+                link : '/apps/academy'
             },
             {
                 id   : 'user-interface.forms.wizards',
@@ -356,7 +356,7 @@ export const empleadoNavigation: FuseNavigationItem[] = [
                 id   : 'apps.ecommerce.inventory',
                 title: 'Lista de Procesos',
                 type : 'basic',
-                link : '/apps/ecommerce/inventory'
+                link : '/apps/academy'
             },
             {
                 id   : 'user-interface.forms.wizards',
