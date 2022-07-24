@@ -33,7 +33,7 @@ export const courses = [
         updatedAt  : 'Jun 28, 2021',
         featured   : true,
         progress   : {
-            currentStep: 1,
+            currentStep: 0,
             completed  : 3
         }
     },
