@@ -57,7 +57,7 @@
                 </div>
 
                 <!-- Name -->
-                <div class="mt-3 text-4xl font-bold truncate">{{contact.nom_cliente}}</div>
+                <div class="mt-3 text-4xl font-bold truncate">{{contact.nom_cliente}} {{contact.apellido_cliente}}</div>
 
                 <!-- Tags 
                 <ng-container *ngIf="contact.tags.length">
@@ -257,7 +257,7 @@
                     <!-- Name -->
                     <div class="mt-8">
                         <mat-form-field class="fuse-mat-no-subscript w-full">
-                            <mat-label>Nombre</mat-label>
+                            <mat-label>Nombres</mat-label>
                             <mat-icon
                                 matPrefix
                                 class="hidden sm:flex icon-size-5"
@@ -265,6 +265,21 @@
                             <input
                                 matInput
                                 [formControlName]="'nom_cliente'"
+                                [placeholder]="'Nombre'"
+                                [spellcheck]="false">
+                        </mat-form-field>
+                    </div>
+                    <!-- Last Name -->
+                    <div class="mt-8">
+                        <mat-form-field class="fuse-mat-no-subscript w-full">
+                            <mat-label>Apellidos</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden sm:flex icon-size-5"
+                                [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            <input
+                                matInput
+                                [formControlName]="'apellido_cliente'"
                                 [placeholder]="'Nombre'"
                                 [spellcheck]="false">
                         </mat-form-field>

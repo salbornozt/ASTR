@@ -1,0 +1,180 @@
+<div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
+
+    <!-- Header -->
+    <div
+        class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-8 px-6 md:px-8 border-b">
+        <!-- Loader -->
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <!-- Title -->
+        <div class="text-4xl font-extrabold tracking-tight">Lista Procesos</div>
+        <!-- Actions -->
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <!-- Search -->
+            <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+                <input matInput [formControl]="searchInputControl" [autocomplete]="'off'"
+                    [placeholder]="'Buscar Proceso'">
+            </mat-form-field>
+
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="flex flex-auto overflow-hidden">
+
+        <!-- Products list -->
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+            <ng-container *ngIf="(procesos$ | async) as title">
+                <ng-container *ngIf="title.length > 0; else noProducts">
+                    <div class="grid">
+                        <!-- Header -->
+                        <div class="inventory-grid z-0 sticky top-0 grid  gap-30 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                            matSort matSortDisableClear>
+
+                            <div class="hidden md:block" [mat-sort-header]="'idProceso'">
+                                No.
+                            </div>
+
+
+
+                            <div [mat-sort-header]="'nameS'">Seguro</div>
+
+                            <div [mat-sort-header]="'nameC'">Cliente</div>
+
+                            <div [mat-sort-header]="'nameE'">Empleado</div>
+
+                            <div class="hidden lg:block" [mat-sort-header]="'porcentaje'">
+                                porcentaje
+                            </div>
+
+
+                            <div class="hidden lg:block" [mat-sort-header]="'complete'">
+                                Completado
+                            </div>
+
+                            <div class="hidden lg:block" [mat-sort-header]="'complete'">
+                                Fecha Inicio
+                            </div>
+                            <div class="hidden sm:block items-center">Detalle</div>
+
+                        </div>
+                        <!-- Rows -->
+                        <ng-container *ngIf="(procesos$ | async) as procesos">
+                            <ng-container *ngFor="let product of procesos; trackBy: trackByFn">
+                                <div class="inventory-grid grid items-center gap-30 py-3 px-6 md:px-8 border-b">
+
+
+
+                                    <!-- COD -->
+                                    <div class="hidden md:block truncate">
+                                        {{product.cod_proceso}}
+                                    </div>
+
+                                    <!-- NameSeguro -->
+                                    <div class="truncate">
+                                        {{product.nom_tipo_seguro}}
+                                    </div>
+
+                                    <!-- Name CLiente -->
+                                    <div class="truncate">
+                                        {{product.nom_cliente}} {{product.apellido_cliente}}
+                                    </div>
+
+                                    <!-- Name Empleado -->
+                                    <div class="truncate">
+                                        {{product.nom_usuario}}
+                                    </div>
+
+
+                                    <!-- Stock -->
+                                    <div class="hidden lg:flex items-center">
+                                        <div class="min-w-4">{{product.porcentaje}}</div>
+                                        <!-- Low stock -->
+                                        <div class="flex items-end ml-2 w-1 h-4 bg-red-200 rounded overflow-hidden"
+                                            *ngIf="product.porcentaje*100 < 50">
+                                            <div class="flex w-full h-1/3 bg-red-600"></div>
+                                        </div>
+                                        <!-- Medium stock -->
+                                        <div class="flex items-end ml-2 w-1 h-4 bg-orange-200 rounded overflow-hidden"
+                                            *ngIf="product.porcentaje*100 >= 50 && product.porcentaje*100 < 80">
+                                            <div class="flex w-full h-2/4 bg-orange-400"></div>
+                                        </div>
+                                        <!-- High stock -->
+                                        <div class="flex items-end ml-2 w-1 h-4 bg-green-100 rounded overflow-hidden"
+                                            *ngIf="product.porcentaje*100 >= 80">
+                                            <div class="flex w-full h-full bg-green-400"></div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Active -->
+                                    <div class="hidden lg:block">
+                                        <ng-container *ngIf="product.nom_status != 'Completado'">
+                                            <mat-icon class="text-red-400 icon-size-5" [svgIcon]="'heroicons_solid:x'">
+                                            </mat-icon>
+                                        </ng-container>
+                                        <ng-container *ngIf="product.nom_status ==  'Finalizada'">
+                                            <mat-icon class="text-green-400 icon-size-5"
+                                                [svgIcon]="'heroicons_solid:check'"></mat-icon>
+                                        </ng-container>
+                                    </div>
+
+
+                                    <div class="truncate">
+                                        {{product.fecha_inicio | date: 'shortDate'}}
+                                    </div>
+
+                                    
+                                    <!-- Details button -->
+                                    <div>
+                                        <button class="min-w-10 min-h-7 h-7 px-2 leading-6" mat-stroked-button
+                                        [routerLink]="['694e4e5f-f25f-470b-bd0e-26b1d4f64028']">
+                                            <mat-icon class="icon-size-5"
+                                                [svgIcon]="'heroicons_solid:chevron-right'">
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                                <div class="grid">
+                                    <ng-container *ngIf="selectedProduct?.id === product.id">
+                                        <ng-container
+                                            *ngTemplateOutlet="rowDetailsTemplate; context: {$implicit: product}">
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                    
+                    
+
+                </ng-container>
+                <mat-paginator
+            class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+            [ngClass]="{'pointer-events-none': isLoading}"
+            [length]="pagination.length"
+            [pageIndex]="pagination.page"
+            [pageSize]="pagination.size"
+            [pageSizeOptions]="[pagination.size]"
+            [showFirstLastButtons]="true"
+            (page)="nextPage($event)" ></mat-paginator>
+
+            </ng-container>
+            
+
+            <ng-template #noProducts>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No hay procesos!</div>
+            </ng-template>
+
+        </div>
+
+    </div>
+
+</div>
+
+            

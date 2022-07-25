@@ -112,7 +112,7 @@ export const appRoutes: Route[] = [
                     //customers
                     {path: 'contacts', loadChildren: () => import('app/modules/admin/apps/contacts/contacts.module').then(m => m.ContactsModule)},
                     {path: 'empleados', loadChildren: () => import('app/modules/admin/apps/empleados/empleado.module').then(m => m.EmpleadosModule)},
-                    {path: 'ecommerce', loadChildren: () => import('app/modules/admin/apps/ecommerce/ecommerce.module').then(m => m.ECommerceModule)},
+                    {path: 'academy', loadChildren: () => import('app/modules/admin/apps/academy/academy.module').then(m => m.AcademyModule)},
                     {path: 'seguros', loadChildren: () => import('app/modules/admin/apps/seguros/list/cards.module').then(m => m.CardsModule)},
                 ]
 
