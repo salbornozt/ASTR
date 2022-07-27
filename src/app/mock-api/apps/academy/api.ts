@@ -80,6 +80,9 @@ export class AcademyMockApi
                     course.steps = steps;
                 }
 
+                console.log(course);
+                
+
                 return [
                     200,
                     course

@@ -87,7 +87,7 @@
                     <mat-icon [svgIcon]="'heroicons_outline:arrow-sm-left'"></mat-icon>
                 </button>
                 <h2 class="ml-2.5 text-md sm:text-xl font-medium tracking-tight truncate">
-                    {{course.title}}
+                
                 </h2>
             </div>
             <mat-progress-bar class="hidden lg:block flex-0 h-0.5 w-full"
@@ -116,7 +116,7 @@
                                     <div class="ml-6 leading-6">
                                         <strong>Número</strong>
                                         <ul>
-                                            <li>0031325151</li>
+                                            <li>{{course.proceso.cod_proceso}}</li>
                                         </ul>
                                     </div>
 
@@ -127,7 +127,7 @@
                                     <div class="ml-6 leading-6">
                                         <strong>Seguro</strong>
                                         <ul>
-                                            <li>Automóviles</li>
+                                            <li>{{course.proceso.nom_tipo_seguro}}</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                                     <div class="ml-6 leading-6">
                                         <strong>Cliente</strong>
                                         <ul>
-                                            <li>Jose Perpés</li>
+                                            <li>{{course.proceso.nom_cliente}}</li>
                                         </ul>
                                     </div>
                                 </div>
