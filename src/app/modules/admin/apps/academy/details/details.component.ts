@@ -6,6 +6,7 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
 import { AcademyService } from 'app/modules/admin/apps/academy/academy.service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ProcesoService } from 'app/services/processs/proceso.service';
 
 @Component({
     selector       : 'academy-details',
@@ -34,7 +35,8 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _elementRef: ElementRef,
         private _formBuilder: FormBuilder,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private _procesoService : ProcesoService
     )
     {
     }
@@ -87,7 +89,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
             });
 
         // Get the course
-        this._academyService.course$
+        this._procesoService.course$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((course: Course) => {
 

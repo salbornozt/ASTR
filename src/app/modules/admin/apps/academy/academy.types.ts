@@ -1,3 +1,5 @@
+import { Proceso } from "app/services/processs/proceso.types";
+
 export interface Category
 {
     id?: string;
@@ -10,6 +12,7 @@ export interface Course
     id?: string;
     title?: string;
     slug?: string;
+    proceso?: any;
     description?: string;
     category?: string;
     duration?: number;
