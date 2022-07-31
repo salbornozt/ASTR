@@ -1,0 +1,126 @@
+<div class="myContent">
+    <ng-container *ngIf="isEdit; else elseBlock">
+        <h3>
+            Actualizar Cotización
+        </h3>
+    </ng-container>
+    <ng-template #elseBlock>
+        <h3>
+            Agregar Cotización
+        </h3>
+    </ng-template>
+
+
+
+
+    <p class="text-secondary mb-6">
+        Ingresa La siguiente información
+    </p>
+    <form [formGroup]="phaseCotizacionForm">
+        <div class="flex flex-col gt-xs:flex-row">
+            <mat-form-field class="flex-auto gt-xs:pr-3">
+                <mat-label>Fecha</mat-label>
+                <input matInput [matDatepicker]="birthdayDatepicker" [placeholder]="'dd/mm/aaaa'"
+                    [formControlName]="'creation_date'">
+
+                <mat-datepicker-toggle matSuffix [for]="birthdayDatepicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #birthdayDatepicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="flex-auto gt-xs:pl-3">
+                <mat-label>Código</mat-label>
+                <input matInput [formControlName]="'numero_cotizacion'">
+            </mat-form-field>
+        </div>
+        <div class="flex">
+
+            <mat-form-field class="flex-auto">
+                <mat-label>Compañia</mat-label>
+
+                <ng-container *ngIf="companias$ | async as companias">
+                    <mat-select [placeholder]="'Seleccionar'" [formControlName]="'company'" required>
+                        <mat-option *ngFor="let compania of companias; let i = index; trackBy: trackByFn"
+                            [value]="compania.cod_compania" (click)="selectCompany(compania.cod_compania)">
+                            {{compania.nom_compania}}
+                        </mat-option>
+                    </mat-select>
+                </ng-container>
+            </mat-form-field>
+        </div>
+        <div class="flex">
+            <ng-container *ngIf="selectedCompany">
+                <mat-form-field class="w-1/2 pr-0">
+                    <mat-label>Ramo</mat-label>
+
+                    <ng-container *ngIf="ramos$ | async as ramos">
+                        <mat-select [placeholder]="'Seleccionar'" [formControlName]="'ramo'" required>
+                            <mat-option *ngFor="let ramo of ramos; let i = index; trackBy: trackByFn"
+                                [value]="ramo.cod_ramo" (click)="selectRamo(ramo.cod_ramo)">{{ramo.nom_ramo}}
+                            </mat-option>
+                        </mat-select>
+                    </ng-container>
+
+
+                </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngIf="selectedRamo">
+                <mat-form-field class="w-1/2 pl-1">
+                    <mat-label>Producto</mat-label>
+                    <ng-container *ngIf="productos$ | async as productos">
+                        <mat-select [placeholder]="'Seleccionar'" required [formControlName]="'producto'">
+
+                            <mat-option *ngFor="let producto of productos; let i = index; trackBy: trackByFn"
+                                [value]="producto.cod_producto">{{producto.nom_producto}}
+                            </mat-option>
+                        </mat-select>
+                    </ng-container>
+
+                </mat-form-field>
+            </ng-container>
+
+        </div>
+        <div class="flex">
+            <mat-form-field class="w-full">
+                <mat-label>Valor</mat-label>
+                <span matPrefix>$</span>
+                <input matInput [formControlName]="'valor'">
+            </mat-form-field>
+        </div>
+        <mat-divider class="mt-6 mb-10"></mat-divider>
+
+        <div class="flex">
+
+            <ng-container *ngIf="isEdit; else elseBlock2">
+                <div class="w-1/2 pl-2">
+                    <!-- Save -->
+                    <button class="flex items-center justify-center" mat-flat-button [color]="'primary'"
+                        [matTooltip]="'Save'" mat-dialog-close (click)="editarCotizacion()">
+                        Guardar
+                    </button>
+                </div>
+                <div class="w-1/2 pl-2">
+                    <!-- Save -->
+                    <button class="flex items-center justify-center" mat-flat-button [color]="'warn'" [matTooltip]="'Save'" mat-dialog-close (click)="eliminarCotizacion()">
+                        Eliminar
+                    </button>
+                </div>
+    
+            </ng-container>
+            <ng-template #elseBlock2>
+                <div class="w-1/2 pl-2">
+                    <!-- Save -->
+                    <button class="flex items-center justify-center" mat-flat-button [color]="'primary'"
+                        [matTooltip]="'Save'" mat-dialog-close (click)="registrarCotizacion()">
+                        Agregar
+                    </button>
+                </div>
+            </ng-template>
+
+            
+        </div>
+
+    </form>
+
+
+</div>

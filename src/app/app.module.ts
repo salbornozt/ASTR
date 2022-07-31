@@ -14,6 +14,7 @@ import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+
 import { FormularioComponent } from './formulario/formulario.component';
 
 const routerConfig: ExtraOptions = {
@@ -42,6 +43,7 @@ const routerConfig: ExtraOptions = {
         // Layout module of your application
         LayoutModule,
         FormsModule,
+        
         ReactiveFormsModule,
         // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({})
