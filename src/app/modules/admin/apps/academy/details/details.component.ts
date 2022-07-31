@@ -1,30 +1,45 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MatTabGroup } from '@angular/material/tabs';
-import { Subject, takeUntil } from 'rxjs';
+import { catchError, Observable, Subject, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { Category, Course } from 'app/modules/admin/apps/academy/academy.types';
 import { AcademyService } from 'app/modules/admin/apps/academy/academy.service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ProcesoService } from 'app/services/processs/proceso.service';
+import { CotizacionService } from 'app/services/cotizacion/cotizacion.service';
+import { UserResponseModel } from 'app/core/user/user.response.model';
+import { Cotizacion } from 'app/services/cotizacion/cotizacion.type';
+import { Compania, Producto, Ramo } from 'app/services/cotizacion/compania.type';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { CotizacionDialogComponent } from '../dialog/cotizacion-dialog/cotizacion-dialog.component';
 
 @Component({
-    selector       : 'academy-details',
-    templateUrl    : './details.component.html',
-    encapsulation  : ViewEncapsulation.None,
+    selector: 'academy-details',
+    templateUrl: './details.component.html',
+    encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AcademyDetailsComponent implements OnInit, OnDestroy
-{
-    @ViewChild('courseSteps', {static: true}) courseSteps: MatTabGroup;
+export class AcademyDetailsComponent implements OnInit, OnDestroy {
+    @ViewChild('courseSteps', { static: true }) courseSteps: MatTabGroup;
     categories: Category[];
+    cotizaiones: Cotizacion[];
+    companias$: Observable<Compania[]>;
+    ramos$: Observable<Ramo[]>;
+    productos$: Observable<Producto[]>;
+
     course: Course;
     currentStep: number = 0;
     drawerMode: 'over' | 'side' = 'side';
     drawerOpened: boolean = true;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+
+    /**
+     * formularios por fases
+     */
     phase1Form: FormGroup;
+    phaseCotizacionForm: FormGroup;
 
     /**
      * Constructor
@@ -36,9 +51,10 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
         private _elementRef: ElementRef,
         private _formBuilder: FormBuilder,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _procesoService : ProcesoService
-    )
-    {
+        private _procesoService: ProcesoService,
+        private _cotizacion_service: CotizacionService,
+        private matDialog: MatDialog
+    ) {
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -48,13 +64,63 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
+
+        this.companias$ = this._cotizacion_service._companias;
+        this.ramos$ = this._cotizacion_service._ramo;
+        this.productos$ = this._cotizacion_service._producto;
+
+
 
         // Create the contact form
         this.phase1Form = this._formBuilder.group({
-            emails      : this._formBuilder.array([]),
+            emails: this._formBuilder.array([]),
         });
+
+        this.phaseCotizacionForm = this._formBuilder.group({
+            cotizacion: this._formBuilder.array([]),
+        });
+        this.phaseCotizacionForm.disable();
+
+
+        this._cotizacion_service._cotizaciones.pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((cotizaiones: Cotizacion[]) => {
+
+                // Get the categories
+                this.cotizaiones = cotizaiones;
+                console.log('cotitacho ' + cotizaiones);
+                (this.phaseCotizacionForm.get('cotizacion') as FormArray).clear();
+                const cotizacionFormGroups = [];
+
+                if (cotizaiones.length > 0) {
+                    cotizaiones.forEach((cot) => {
+                        console.log('fec '+cot.fecha_creada);
+                        
+                        cotizacionFormGroups.push(
+                            this._formBuilder.group({
+                                cod_cotizacion: [cot.cod_cotizacion],
+                                creation_date: [cot.fecha_creada],
+                                company: [cot.cod_compania],
+                                ramo: [cot.cod_ramo],
+                                producto: [cot.cod_producto],
+                                numero_cotizacion: [cot.numero_cotizacion],
+                                valor: [cot.valor]
+                            })
+                        );
+                    })
+                } 
+                // Add the email form groups to the correos form array
+                cotizacionFormGroups.forEach((cotizationFormGroup) => {
+                    (this.phaseCotizacionForm.get('cotizacion') as FormArray).push(cotizationFormGroup);
+                });
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+
+
+
+
 
 
         // Setup the emails form array
@@ -106,16 +172,14 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
         // Subscribe to media changes
         this._fuseMediaWatcherService.onMediaChange$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe(({matchingAliases}) => {
+            .subscribe(({ matchingAliases }) => {
 
                 // Set the drawerMode and drawerOpened
-                if ( matchingAliases.includes('lg') )
-                {
+                if (matchingAliases.includes('lg')) {
                     this.drawerMode = 'side';
                     this.drawerOpened = true;
                 }
-                else
-                {
+                else {
                     this.drawerMode = 'over';
                     this.drawerOpened = false;
                 }
@@ -128,8 +192,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
@@ -138,14 +201,36 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    /**
+         * Add the email field
+         */
+    addCotizationField(): void {
+        // Create an empty email form group
+        const cotFormGroup = this._formBuilder.group({
+            cod_cotizacion: [''],
+            creation_date: [''],
+            company: [''],
+            ramo: [''],
+            producto: [''],
+            numero_cotizacion: [''],
+            valor: ['']
+        });
+
+
+
+        // Add the email form group to the correos form array
+        (this.phaseCotizacionForm.get('cotizacion') as FormArray).push(cotFormGroup);
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+    }
 
     /**
      * Go to given step
      *
      * @param step
      */
-    goToStep(step: number): void
-    {
+    goToStep(step: number): void {
         // Set the current step
         this.currentStep = step;
 
@@ -159,11 +244,9 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     /**
      * Go to previous step
      */
-    goToPreviousStep(): void
-    {
+    goToPreviousStep(): void {
         // Return if we already on the first step
-        if ( this.currentStep === 0 )
-        {
+        if (this.currentStep === 0) {
             return;
         }
 
@@ -177,11 +260,9 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
     /**
      * Go to next step
      */
-    goToNextStep(): void
-    {
+    goToNextStep(): void {
         // Return if we already on the last step
-        if ( this.currentStep === this.course.totalSteps - 1 )
-        {
+        if (this.currentStep === this.course.totalSteps - 1) {
             return;
         }
 
@@ -198,8 +279,7 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
      * @param index
      * @param item
      */
-    trackByFn(index: number, item: any): any
-    {
+    trackByFn(index: number, item: any): any {
         return item.id || index;
     }
 
@@ -216,20 +296,45 @@ export class AcademyDetailsComponent implements OnInit, OnDestroy
      *
      * @private
      */
-    private _scrollCurrentStepElementIntoView(): void
-    {
+    private _scrollCurrentStepElementIntoView(): void {
         // Wrap everything into setTimeout so we can make sure that the 'current-step' class points to correct element
         setTimeout(() => {
 
             // Get the current step element and scroll it into view
             const currentStepElement = this._document.getElementsByClassName('current-step')[0];
-            if ( currentStepElement )
-            {
+            if (currentStepElement) {
                 currentStepElement.scrollIntoView({
                     behavior: 'smooth',
-                    block   : 'start'
+                    block: 'start'
                 });
             }
         });
     }
+
+
+    openEditCotiDialog(position) {
+        const dialogConfig = new MatDialogConfig();
+        const stepForm = this.phaseCotizacionForm.getRawValue();
+        console.log(stepForm.cotizacion[position]);
+        
+        this.matDialog.open(CotizacionDialogComponent, {
+            data: {
+                isEdit: true,
+                dataKey: this.course.proceso.cod_proceso,
+                cotizacion : stepForm.cotizacion[position]
+
+            }
+        });
+    }
+
+    openCreateCotiDialog() {
+        const dialogConfig = new MatDialogConfig();
+        this.matDialog.open(CotizacionDialogComponent, {
+            data: {
+                isEdit: false,
+                dataKey: this.course.proceso.cod_proceso
+            }
+        });
+    }
+
 }
